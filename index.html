@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="ru" class="no-js">
+<head>
+<!-- ════════════════════════════════════════════════════════════════════
+     РЕЗЮМЕ-САЙТ · BUSINESS DEVELOPMENT MANAGER
+     Стиль: modern minimalism + brutalism
+     ─────────────────────────────────────────────────────────────────────
+     КАК РЕДАКТИРОВАТЬ ЭТОТ ФАЙЛ:
+     1. Цвета, шрифты и отступы — в блоке :root ниже (CSS-переменные).
+        Акцент задаётся ОДНОЙ переменной --accent.
+     2. Все тексты помечены комментариями вида  [РЕДАКТИРОВАТЬ] ...
+        Ищите по слову «РЕДАКТИРОВАТЬ» — это все точки замены контента.
+     3. KPI-счётчики: числа задаются атрибутами data-count-to,
+        data-prefix и data-suffix (см. секцию «Ключевые показатели»).
+     4. Фото: замените блок-заглушку .photo__frame на
+        <img src="photo.jpg" alt="Иван Нештенко"> (комментарий на месте).
+     5. Иконки и графический мотив «ступени роста» (#m-step) — SVG-спрайт
+        сразу после <body>: правьте контуры там, вставка <use href="#id">.
+     6. Бегущая строка: слова — в секции MARQUEE (список повторён дважды,
+        правьте обе копии одинаково).
+     7. Анимации автоматически отключаются при prefers-reduced-motion;
+        без JavaScript страница полностью читаема.
+     ════════════════════════════════════════════════════════════════════ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- [РЕДАКТИРОВАТЬ] SEO: заголовок вкладки и описание страницы -->
+<title>Иван Нештенко — Business Development Manager</title>
+<meta name="description" content="Business Development Manager и B2B-продажи. Сделка на ₽1 млн за год, 50+ бизнес-сессий и кейс-чемпионатов, 8 ролей в проектах с 15 лет. Студент РЭУ им. Г. В. Плеханова.">
+
+<!-- Шрифты: Unbounded (дисплейный гротеск) + Inter (текст) + JetBrains Mono (метки), все с кириллицей -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════════════
+   1. ДИЗАЙН-ТОКЕНЫ — здесь меняются цвета, шрифты, отступы
+   ══════════════════════════════════════════════════════════ */
+:root{
+  /* Палитра: почти чёрный + off-white + один резкий акцент */
+  --paper:        #EFEFEA;   /* фон страницы (off-white) */
+  --paper-2:      #E3E3DC;   /* вторая поверхность (заглушка фото и т.п.) */
+  --ink:          #0C0C0C;   /* почти чёрный: текст, линии, тёмные блоки */
+  --ink-2:        #454540;   /* вторичный текст */
+  --mute:         #63635B;   /* приглушённые подписи */
+  --accent:       #C6F135;   /* ← ЕДИНСТВЕННЫЙ акцент (кислотный лайм) */
+  --accent-dark:  #C6F135;   /* акцент на тёмном фоне (тот же лайм) */
+  --line:         #CFCFC6;   /* второстепенные линии (1px) */
+  --line-strong:  #0C0C0C;   /* структурные линии (1.5–2px) = чернила */
+
+  /* Шрифты */
+  --font-display: 'Unbounded', 'Arial Black', sans-serif;
+  --font-sans:    'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'Courier New', monospace;
+
+  /* Типографическая шкала (fluid; Unbounded — широкий шрифт) */
+  --fs-hero:  clamp(2.3rem, 7.2vw, 5.2rem);
+  --fs-h2:    clamp(1.45rem, 3vw, 2.3rem);
+  --fs-kpi:   clamp(1.9rem, 3.6vw, 3rem);
+  --fs-body:  1.0625rem;
+
+  /* Ритм и формы: нулевые скругления, жёсткие линии */
+  --sp-section: clamp(4.5rem, 11vw, 8.5rem);
+  --container:  1140px;
+  --radius:     0;
+  --bw:         1.5px;       /* базовая толщина структурных линий */
+
+  /* Движение: резко, коротко */
+  --ease: cubic-bezier(.19,1,.22,1);
+  --snap: .12s linear;
+}
+
+/* ══════════════════════════════════════════════════════════
+   2. БАЗА
+   ══════════════════════════════════════════════════════════ */
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font-sans);
+  font-size:var(--fs-body);
+  line-height:1.65;
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; }
+::selection{ background:var(--ink); color:var(--accent); }
+section[id]{ scroll-margin-top:84px; }
+
+.container{
+  max-width:var(--container);
+  margin-inline:auto;
+  padding-inline:clamp(1.25rem, 5vw, 2.5rem);
+}
+
+/* Доступность: skip-link и видимый фокус */
+.skip-link{
+  position:absolute; left:1rem; top:-100%; z-index:300;
+  padding:.7rem 1.2rem; background:var(--ink); color:var(--paper);
+  font:600 .9rem var(--font-sans);
+  transition:top .2s;
+}
+.skip-link:focus{ top:1rem; }
+:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+.contact :focus-visible, .site-footer :focus-visible{ outline-color:var(--accent); }
+
+/* Типографические примитивы: моно-оверлайны с акцентным квадратом */
+.overline{
+  display:flex; align-items:center; gap:.7rem;
+  font:500 .72rem/1 var(--font-mono);
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink);
+}
+.overline::before{
+  content:""; width:9px; height:9px; flex:none;
+  background:var(--accent); border:1px solid var(--ink);
+}
+
+/* Строка секции: оверлайн + жёсткая линия + номер в боксе */
+.sec-line{ display:flex; align-items:center; gap:1.1rem; }
+.sec-line .rule{ flex:1; height:var(--bw); background:var(--ink); border:0; }
+.sec-num{
+  font:600 .72rem/1 var(--font-mono); letter-spacing:.08em;
+  color:var(--ink);
+  border:var(--bw) solid var(--ink);
+  padding:.45em .6em;
+}
+.sec-head{ position:relative; margin-bottom:clamp(2.5rem, 6vw, 4.25rem); }
+.sec-title{
+  font:600 var(--fs-h2)/1.18 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:0;
+  margin-top:1.3rem;
+  max-width:26ch;
+}
+.sec-lead{ margin-top:1.1rem; max-width:52ch; color:var(--ink-2); }
+
+/* Thin-line SVG-иконки (угловатые, спрайт в начале <body>) */
+.ic{
+  width:15px; height:15px; flex:none;
+  color:var(--ink); display:inline-block;
+}
+.ic--lg{ width:24px; height:24px; }
+
+/* Фирменный мотив «ступени роста» — жёсткая лестница с квадратом на пике */
+.motif{ display:block; color:var(--ink); pointer-events:none; }
+.motif .mdot{ fill:var(--accent); }
+.motif--hero{ width:110px; margin-top:2.7rem; }
+.motif--sec{ position:absolute; right:0; bottom:.4rem; width:170px; display:none; }
+.motif--contact{
+  position:absolute; right:clamp(1.25rem, 5vw, 2.5rem); top:5rem;
+  width:280px; color:rgba(239,239,234,.45); display:none;
+}
+
+/* Ссылки: ховер-«маркер» — заливка акцентом, резко */
+.link-line{
+  padding:.06em .14em; margin:-.06em -.14em;
+  transition:background-color var(--snap), color var(--snap);
+}
+.link-line:hover, .link-line:focus-visible{
+  background:var(--accent); color:var(--ink);
+}
+
+/* Кнопки: боксы 1.5px, заливка-шторка по ховеру, «нажатие» по клику */
+.btn{
+  position:relative; overflow:hidden; isolation:isolate;
+  display:inline-flex; align-items:center; justify-content:center; gap:.7rem;
+  min-height:50px; padding:.9rem 1.9rem;
+  font:600 .8rem/1 var(--font-mono);
+  letter-spacing:.06em; text-transform:uppercase;
+  border:var(--bw) solid var(--ink);
+  cursor:pointer;
+  transition:color var(--snap), border-color var(--snap);
+}
+.btn::after{                                  /* шторка-заливка */
+  content:""; position:absolute; inset:0; z-index:-1;
+  background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .24s var(--ease);
+}
+.btn:hover::after, .btn:focus-visible::after{ transform:scaleX(1); }
+.btn:active{ translate:2px 2px; }             /* брутальное «нажато» */
+.btn .arr{ transition:transform .18s var(--ease); }
+.btn:hover .arr{ transform:translateX(5px); }
+.btn--primary{ background:var(--ink); color:var(--paper); }
+.btn--primary:hover, .btn--primary:focus-visible{ color:var(--ink); }
+.btn--ghost{ background:transparent; color:var(--ink); }
+.btn--ghost::after{ background:var(--ink); }
+.btn--ghost:hover, .btn--ghost:focus-visible{ color:var(--paper); }
+
+/* Scroll-появления: резкий короткий сдвиг */
+.reveal{
+  opacity:0; transform:translateY(12px);
+  transition:opacity .2s linear, transform .24s var(--ease);
+}
+.reveal.is-visible{ opacity:1; transform:none; }
+.no-js .reveal{ opacity:1; transform:none; }
+/* Элементы с parallax: transform управляется JS каждый кадр —
+   переход оставляем только по opacity, чтобы не было «догоняния» */
+.reveal[data-parallax]{ transform:none; transition:opacity .2s linear; }
+
+/* Индикатор прочитанного: акцентная полоса поверх шапки.
+   При загрузке используется как интро-полоса (пробег 0→100%) */
+#progress{
+  position:fixed; inset:0 0 auto 0; height:3px; z-index:250;
+  background:var(--accent);
+  transform:scaleX(0); transform-origin:0 50%;
+  pointer-events:none;
+}
+
+/* Кастомный курсор: квадрат-спутник (desktop + fine pointer, JS) */
+#cursor{
+  position:fixed; left:0; top:0; z-index:400;
+  width:9px; height:9px;
+  background:var(--accent); border:1px solid var(--ink);
+  pointer-events:none; opacity:0;
+  transition:opacity .2s linear;
+  will-change:transform;
+}
+#cursor.is-on{ border-color:var(--ink); }
+html.has-cursor, html.has-cursor a, html.has-cursor button{ cursor:none; }
+
+/* Лёгкое зерно поверх всей страницы (статичное, не анимируется) */
+body::after{
+  content:""; position:fixed; inset:0; z-index:390;
+  pointer-events:none; opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Хореография появлений: wipe-заголовки, растущие линейки, шторка фото */
+.sec-head .sec-title,
+.contact-title{
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path .55s var(--ease) .08s;
+}
+.sec-head.is-visible .sec-title,
+.contact-title.is-visible{
+  clip-path:inset(0 -2% 0 0);
+}
+.reveal .rule{
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .5s var(--ease) .05s;
+}
+.reveal.is-visible .rule, .is-visible .rule{ transform:scaleX(1); }
+.photo__frame::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:var(--accent);
+  transform:scaleY(1); transform-origin:top;
+  transition:transform .6s var(--ease) .15s;
+}
+.photo.is-visible .photo__frame::after{ transform:scaleY(0); }
+.no-js .sec-head .sec-title, .no-js .contact-title{ clip-path:none; }
+.no-js .reveal .rule{ transform:none; }
+.no-js .photo__frame::after{ display:none; }
+
+/* KPI: маркер-подсветка цифры по ховеру ячейки */
+.kpi-grid > div .kpi__num{
+  width:fit-content; padding:.02em .12em; margin-left:-.12em;
+  transition:background-color var(--snap);
+}
+.kpi-grid > div:hover .kpi__num{ background:var(--accent); }
+
+/* ══════════════════════════════════════════════════════════
+   ИНТРО-СЛОВОМАРКА: «ИВАН / & / НЕШТЕНКО» собирается и уходит
+   вверх (~1.2с). Показывается только с JS и без reduced-motion.
+   ══════════════════════════════════════════════════════════ */
+#intro{
+  position:fixed; inset:0; z-index:500;
+  background:var(--paper);
+  display:none; place-items:center; text-align:center;
+  transition:transform .45s cubic-bezier(.7,0,.18,1);
+}
+html.has-intro #intro{ display:grid; }
+#intro.done{ transform:translateY(-101%); }
+.intro-line{ display:block; overflow:hidden; }
+.intro-line b{
+  display:block;
+  font:700 clamp(2.2rem, 7vw, 4.6rem)/1.06 var(--font-display);
+  text-transform:uppercase; letter-spacing:-.01em;
+  transform:translateY(112%);
+  transition:transform .5s var(--ease);
+}
+.intro-line--amp b{
+  font-size:clamp(2.6rem, 8.4vw, 5.6rem);
+  color:var(--accent);
+  -webkit-text-stroke:2px var(--ink);
+}
+#intro.go .intro-line b{ transform:translateY(0); }
+#intro.go .intro-line--amp b{ animation:ggflick .32s steps(3) 1 .38s; }
+.intro-tag{
+  margin-top:1.4rem;
+  font:500 .68rem/1 var(--font-mono);
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--mute);
+  opacity:0; transition:opacity .3s linear .45s;
+}
+#intro.go .intro-tag{ opacity:1; }
+@keyframes ggflick{ 0%,55%,100%{opacity:1} 30%{opacity:.15} 75%{opacity:.45} }
+
+/* Dual-layer текст: второй слой выезжает снизу (nav, кнопки, роли) */
+.sw{ display:inline-flex; overflow:hidden; vertical-align:top; }
+.sw b{
+  position:relative; display:block;
+  font-weight:inherit; font-style:normal;
+  transform:translateY(0);
+  transition:transform .3s var(--ease);
+}
+.sw b::after{
+  content:attr(data-txt);
+  position:absolute; left:0; top:100%; width:100%;
+}
+.site-nav a:hover .sw b, .site-nav a:focus-visible .sw b,
+.btn:hover .sw b, .btn:focus-visible .sw b,
+.role-row:hover .sw b{ transform:translateY(-100%); }
+
+/* Глитч-дрожь имени по ховеру (дозированный фирменный сбой) */
+@keyframes gjit{
+  0%{ transform:translate(0,0); } 25%{ transform:translate(2px,-2px); }
+  50%{ transform:translate(-2px,1px); } 75%{ transform:translate(1px,2px); }
+  100%{ transform:translate(0,0); }
+}
+.hero-name:hover{ animation:gjit .18s steps(2) 2; }
+
+/* ══════════════════════════════════════════════════════════
+   3. ШАПКА (sticky, жёсткая линия, подсветка текущей секции)
+   ══════════════════════════════════════════════════════════ */
+.site-header{
+  position:sticky; top:0; z-index:100;
+  background:var(--paper);
+  border-bottom:var(--bw) solid var(--ink);
+}
+.header-in{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:1.5rem; height:68px;
+}
+.brand{
+  display:inline-flex; align-items:center; gap:.55rem;
+  font:700 .85rem/1 var(--font-mono);
+  letter-spacing:.04em; text-transform:uppercase; white-space:nowrap;
+}
+.brand .tag{
+  font:700 .68rem/1 var(--font-mono);
+  background:var(--accent); border:1px solid var(--ink);
+  padding:.28em .5em;
+}
+.site-nav ul{ display:flex; gap:.4rem; }
+.site-nav a{
+  display:inline-block; padding:.55em .7em;
+  font:500 .7rem/1 var(--font-mono);
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink);
+  transition:background-color var(--snap), color var(--snap);
+}
+.site-nav a:hover, .site-nav a:focus-visible{ background:var(--ink); color:var(--paper); }
+.site-nav a.is-current{ background:var(--accent); color:var(--ink); }
+.header-cta{ min-height:42px; padding:.6rem 1.2rem; font-size:.7rem; }
+
+/* ══════════════════════════════════════════════════════════
+   4. ХИРО (крупная типографика + лёгкий parallax через JS)
+   ══════════════════════════════════════════════════════════ */
+.hero{ padding-block:clamp(3.5rem, 9vw, 6.5rem) var(--sp-section); overflow:hidden; }
+.hero-grid{
+  display:grid;
+  grid-template-columns:minmax(0,7fr) minmax(0,4.4fr);
+  gap:clamp(2.5rem, 6vw, 5rem);
+  align-items:center;
+}
+.hero-name{
+  font:700 var(--fs-hero)/1.04 var(--font-display);
+  text-transform:uppercase;
+  letter-spacing:-.01em;
+  margin-top:1.5rem;
+}
+.hero-name .dot{ color:var(--ink); }
+.hero-lat{
+  margin-top:.9rem;
+  font:500 .74rem/1 var(--font-mono);
+  letter-spacing:.32em; text-transform:uppercase;
+  color:var(--mute);
+}
+.hero-lead{
+  margin-top:1.9rem; max-width:56ch;
+  font-size:clamp(1.05rem, 1.6vw, 1.19rem);
+  color:var(--ink-2);
+}
+.hero-lead strong{ color:var(--ink); font-weight:600; }
+.hero-meta{
+  margin-top:2.1rem; padding-top:1.6rem;
+  border-top:var(--bw) solid var(--ink);
+  display:flex; flex-wrap:wrap; column-gap:1.7rem; row-gap:.65rem;
+  font-size:.92rem; color:var(--ink-2); font-style:normal;
+}
+.hero-meta > *{ display:inline-flex; align-items:center; gap:.55rem; }
+.hero-cta{ margin-top:2.3rem; display:flex; flex-wrap:wrap; gap:1rem; }
+.chip{
+  margin-top:2.2rem;
+  display:inline-flex; align-items:center; gap:.6rem;
+  font:500 .68rem/1.5 var(--font-mono);
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink);
+  border:var(--bw) solid var(--ink);
+  padding:.55em .8em;
+}
+.chip::before{
+  content:""; width:8px; height:8px; flex:none;
+  background:var(--accent); border:1px solid var(--ink);
+}
+
+/* Фото-заглушка: жёсткая рамка + акцентный квадрат-маркер */
+.photo{ position:relative; max-width:370px; justify-self:end; width:100%; }
+.photo::before{
+  content:""; position:absolute; right:-13px; top:-13px; z-index:2;
+  width:26px; height:26px;
+  background:var(--accent); border:var(--bw) solid var(--ink);
+}
+.photo__frame{
+  position:relative; aspect-ratio:4/5;
+  background:var(--paper-2); border:2px solid var(--ink);
+  display:grid; place-items:center; text-align:center;
+  padding:1.5rem;
+}
+.photo__hint{ color:var(--mute); font-size:.82rem; line-height:1.5; }
+.photo__hint b{
+  display:block; font:600 .95rem/1.4 var(--font-display);
+  text-transform:uppercase; color:var(--ink-2);
+  margin-bottom:.5rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   5. MARQUEE — бегущая лента ключевых слов (брутальный акцент)
+   ══════════════════════════════════════════════════════════ */
+.marquee{
+  border-block:var(--bw) solid var(--ink);
+  background:var(--accent); color:var(--ink);
+  overflow:hidden; padding-block:.8rem;
+}
+.marquee__track{
+  display:flex; width:max-content;
+  animation:mq 38s linear infinite;
+}
+.marquee:hover .marquee__track{ animation-play-state:paused; }
+.marquee__group{
+  display:flex; align-items:center; gap:2.6rem;
+  padding-right:2.6rem;
+}
+.marquee__group span{
+  font:600 .82rem/1 var(--font-display);
+  text-transform:uppercase; letter-spacing:.02em;
+  white-space:nowrap;
+}
+.marquee__group i{
+  width:9px; height:9px; flex:none;
+  background:var(--ink);
+}
+@keyframes mq{ to{ transform:translateX(-50%); } }
+
+/* ══════════════════════════════════════════════════════════
+   6. KPI-ПОЛОСА (жёсткие разделители, крупные цифры)
+   ══════════════════════════════════════════════════════════ */
+.kpi{ border-bottom:var(--bw) solid var(--ink); padding-block:clamp(2.75rem, 6vw, 4.25rem); }
+.kpi .sec-line{ margin-bottom:clamp(2.25rem, 5vw, 3.25rem); }
+.kpi-grid{ display:grid; grid-template-columns:repeat(4,1fr); }
+.kpi-grid > div{
+  padding-left:clamp(1.5rem, 2.5vw, 2.4rem);
+  padding-right:1.25rem;
+  border-left:var(--bw) solid var(--ink);
+}
+.kpi-grid > div:first-child{ padding-left:0; border-left:0; }
+.kpi-grid > div:last-child{ padding-right:0; }
+.kpi__num{
+  font:700 var(--fs-kpi)/1.08 var(--font-display);
+  letter-spacing:0; white-space:nowrap;
+}
+.kpi__num--long{ font-size:clamp(1.55rem, 2.9vw, 2.35rem); line-height:1.3; }
+.kpi__label{ margin-top:.75rem; font:600 .92rem/1.4 var(--font-sans); }
+.kpi__sub{
+  margin-top:.4rem;
+  font:400 .72rem/1.5 var(--font-mono);
+  color:var(--mute);
+}
+
+/* ══════════════════════════════════════════════════════════
+   7. ОПЫТ (таймлайн: моно-годы, квадратные маркеры, ховер-маркер роли)
+   ══════════════════════════════════════════════════════════ */
+.xp{ padding-block:var(--sp-section); }
+.xp-item{
+  display:grid; grid-template-columns:150px 1fr;
+  gap:clamp(1.5rem, 4vw, 3rem);
+}
+.xp-item + .xp-item{ margin-top:.5rem; }
+.xp-when{ text-align:right; }
+.xp-when .y{
+  display:block;
+  font:700 clamp(1.4rem, 2.2vw, 1.8rem)/1.1 var(--font-mono);
+  letter-spacing:-.02em;
+}
+.xp-when .tail{
+  display:block; margin-top:.45rem;
+  font:500 .68rem/1.4 var(--font-mono);
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-2);
+}
+.xp-when small{
+  display:block; margin-top:.3rem;
+  font:400 .7rem/1.4 var(--font-mono);
+  color:var(--mute);
+}
+.xp-body{
+  position:relative; border-left:var(--bw) solid var(--ink);
+  padding:0 0 clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 3vw, 2.2rem);
+}
+.xp-item:last-child .xp-body{ padding-bottom:.5rem; }
+.xp-body::before{
+  content:""; position:absolute; left:-6.25px; top:.4rem;
+  width:11px; height:11px;
+  background:var(--accent); border:var(--bw) solid var(--ink);
+  transition:transform var(--snap);
+}
+.xp-item:hover .xp-body::before{ transform:scale(1.3); }
+.xp-role{
+  font:600 clamp(1rem, 1.7vw, 1.25rem)/1.3 var(--font-display);
+  width:fit-content; padding:.05em .2em; margin-left:-.2em;
+  transition:background-color var(--snap);
+}
+.xp-item:hover .xp-role{ background:var(--accent); }
+.xp-co{ margin-top:.5rem; font:600 .92rem/1.5 var(--font-sans); color:var(--ink-2); }
+.xp-co span{ font-weight:400; color:var(--mute); }
+.xp-list{ margin-top:1.15rem; }
+.xp-list li{
+  position:relative; padding-left:1.6rem;
+  color:var(--ink-2); margin-bottom:.6rem; max-width:62ch;
+}
+.xp-list li::before{
+  content:""; position:absolute; left:0; top:.72em;
+  width:14px; height:var(--bw); background:var(--ink);
+}
+.xp-list strong{ color:var(--ink); font-weight:600; }
+
+/* ══════════════════════════════════════════════════════════
+   7b. РОЛИ В ПРОЕКТАХ — «тёмный акт» страницы (инверсия фона),
+   индекс-лист с тегами и лаймовой инверсией строки по ховеру
+   ══════════════════════════════════════════════════════════ */
+.roles{
+  background:var(--ink); color:var(--paper);
+  padding-block:var(--sp-section);
+}
+.roles .overline{ color:var(--accent); }
+.roles .sec-line .rule{ background:rgba(239,239,234,.3); }
+.roles .sec-num{ color:var(--paper); border-color:rgba(239,239,234,.5); }
+.roles .sec-lead{ color:rgba(239,239,234,.66); }
+.roles-list{ border-top:var(--bw) solid rgba(239,239,234,.35); }
+.role-row{
+  display:grid; grid-template-columns:3.2rem 1fr auto auto 1.6rem;
+  align-items:center; gap:1.2rem;
+  border-bottom:var(--bw) solid rgba(239,239,234,.35);
+  padding:1.05rem .35rem;
+  transition:background-color var(--snap), padding-left var(--snap);
+}
+.role-row .rn{
+  font:500 .7rem/1 var(--font-mono); color:rgba(239,239,234,.45);
+  transition:color var(--snap);
+}
+.role-row .rname{
+  font:600 clamp(.92rem, 1.6vw, 1.12rem)/1.3 var(--font-display);
+  text-transform:uppercase;
+  transition:color var(--snap);
+}
+.rtag{
+  justify-self:end;
+  font:500 .58rem/1 var(--font-mono);
+  letter-spacing:.12em; text-transform:uppercase;
+  border:1px solid rgba(239,239,234,.4); color:rgba(239,239,234,.75);
+  padding:.35em .55em; white-space:nowrap;
+  transition:color var(--snap), border-color var(--snap);
+}
+.role-row .rnote{
+  font:400 .7rem/1.4 var(--font-mono); color:rgba(239,239,234,.5);
+  text-align:right; overflow:hidden; max-width:15rem;
+  transition:color var(--snap);
+}
+.role-row .rloop{ display:none; white-space:nowrap; }
+.role-row .rarr{
+  font:500 1rem/1 var(--font-mono); text-align:right;
+  color:rgba(239,239,234,.6);
+  transition:color var(--snap), transform .18s var(--ease);
+}
+/* Ховер: лаймовая инверсия строки + лента-повтор вместо описания */
+.role-row:hover{ background:var(--accent); padding-left:.8rem; }
+.role-row:hover .rname{ color:var(--ink); }
+.role-row:hover .rn{ color:rgba(12,12,12,.6); }
+.role-row:hover .rtag{ color:var(--ink); border-color:var(--ink); }
+.role-row:hover .rnote{ color:var(--ink); }
+.role-row:hover .rq{ display:none; }
+.role-row:hover .rloop{ display:inline-block; animation:rloop 6s linear infinite; }
+.role-row:hover .rarr{ color:var(--ink); transform:translateX(5px); }
+@keyframes rloop{ to{ transform:translateX(-33.333%); } }
+
+/* ══════════════════════════════════════════════════════════
+   8. КОМПЕТЕНЦИИ (жёсткая сетка-таблица, инверсия ячейки по ховеру)
+   ══════════════════════════════════════════════════════════ */
+.skills{ padding-block:0 var(--sp-section); }
+.skills-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+  border:var(--bw) solid var(--ink);
+}
+.skill-card{
+  border-right:var(--bw) solid var(--ink);
+  border-bottom:var(--bw) solid var(--ink);
+  padding:1.5rem 1.4rem 1.7rem;
+  transition:background-color var(--snap);
+}
+.skill-card:nth-child(3n){ border-right:0; }
+.skill-card:nth-child(n+4){ border-bottom:0; }
+.skill-card:hover{ background:var(--ink); }
+.skill-top{ display:flex; justify-content:space-between; align-items:center; }
+.skill-num{
+  font:500 .7rem/1 var(--font-mono); letter-spacing:.08em;
+  color:var(--mute);
+  transition:color var(--snap);
+}
+.skill-card h3{
+  margin-top:1.1rem;
+  font:700 .95rem/1.4 var(--font-sans);
+  text-transform:uppercase; letter-spacing:.02em;
+  transition:color var(--snap);
+}
+.skill-card p{
+  margin-top:.55rem; font-size:.92rem; color:var(--ink-2); line-height:1.55;
+  transition:color var(--snap);
+}
+.skill-card .ic{ transition:color var(--snap); }
+.skill-card:hover h3{ color:var(--paper); }
+.skill-card:hover p{ color:rgba(239,239,234,.72); }
+.skill-card:hover .skill-num{ color:rgba(239,239,234,.6); }
+.skill-card:hover .ic{ color:var(--accent); }
+
+/* ══════════════════════════════════════════════════════════
+   9. ОБРАЗОВАНИЕ / СЕРТИФИКАТЫ / ЯЗЫКИ
+   ══════════════════════════════════════════════════════════ */
+.edu{ padding-block:0 var(--sp-section); }
+.edu-grid{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:clamp(2.5rem, 6vw, 4.5rem);
+}
+.edu-col h3{
+  font:600 1.05rem/1.3 var(--font-display);
+  text-transform:uppercase;
+  margin-bottom:1.1rem;
+}
+.edu-item{ border-top:1px solid var(--line); padding:1.25rem 0 1.35rem; }
+.edu-item .year{
+  display:flex; align-items:center; gap:.5rem;
+  font:700 .78rem/1 var(--font-mono); letter-spacing:.06em;
+  color:var(--ink);
+}
+.edu-item .year::before{
+  content:""; width:7px; height:7px; flex:none;
+  background:var(--accent); border:1px solid var(--ink);
+}
+.edu-item h4{
+  margin-top:.55rem; font:600 1rem/1.4 var(--font-sans);
+  width:fit-content; padding:.04em .18em; margin-left:-.18em;
+  transition:background-color var(--snap);
+}
+.edu-item:hover h4{ background:var(--accent); }
+.edu-item p{ margin-top:.3rem; font-size:.92rem; color:var(--ink-2); }
+
+/* Заметный блок вуза: жёсткая рамка + акцентный маркер */
+.edu-feature{
+  position:relative;
+  border:2px solid var(--ink);
+  padding:1.5rem 1.5rem 1.6rem;
+  margin-bottom:1.1rem;
+}
+.edu-feature::before{
+  content:""; position:absolute; right:-10px; top:-10px;
+  width:20px; height:20px;
+  background:var(--accent); border:var(--bw) solid var(--ink);
+}
+.edu-feature h4{
+  margin-top:.7rem;
+  font:600 1.05rem/1.35 var(--font-display);
+  text-transform:uppercase;
+}
+.edu-feature .prog{ margin-top:.55rem; font-size:.95rem; color:var(--ink); font-weight:600; }
+.edu-feature p{ margin-top:.45rem; font-size:.92rem; color:var(--ink-2); }
+
+/* «Как я работаю» — манифест-строки вместо банального списка качеств */
+.how-list{ border-top:var(--bw) solid var(--ink); }
+.how-list li{
+  display:flex; align-items:flex-start; gap:.85rem;
+  border-bottom:1px solid var(--line);
+  padding:1rem .15rem;
+  font:600 1.02rem/1.5 var(--font-sans);
+  transition:background-color var(--snap), padding-left var(--snap);
+}
+.how-list li::before{
+  content:""; width:9px; height:9px; flex:none;
+  margin-top:.5em;
+  background:var(--accent); border:1px solid var(--ink);
+}
+.how-list li:hover{ background:rgba(198,241,53,.22); padding-left:.6rem; }
+
+/* ══════════════════════════════════════════════════════════
+   10. КОНТАКТНЫЙ CTA (инверсия: чёрный блок, лайм-акценты) + ПОДВАЛ
+   ══════════════════════════════════════════════════════════ */
+.contact{
+  background:var(--ink); color:#EFEFEA;
+  padding-block:clamp(4.5rem, 11vw, 8rem);
+}
+.contact .container{ position:relative; }
+.contact .overline{ color:var(--accent); }
+.contact .overline::before{ border-color:var(--accent); }
+.contact .sec-line .rule{ background:rgba(239,239,234,.3); }
+.contact .sec-num{ color:#EFEFEA; border-color:rgba(239,239,234,.5); }
+.contact .ic{ color:var(--accent); }
+.contact-title{
+  font:600 clamp(1.6rem, 3.8vw, 2.8rem)/1.18 var(--font-display);
+  text-transform:uppercase;
+  margin-top:1.3rem; max-width:26ch;
+}
+.contact-note{ margin-top:1.3rem; max-width:52ch; color:rgba(239,239,234,.72); }
+.contact-mail{
+  display:inline-block; margin-top:2.6rem;
+  font:500 clamp(1.05rem, 2.4vw, 1.7rem)/1.35 var(--font-mono);
+  color:var(--accent);
+  text-decoration:underline;
+  text-decoration-thickness:var(--bw); text-underline-offset:7px;
+  transition:background-color var(--snap), color var(--snap);
+  overflow-wrap:anywhere;
+}
+.contact-mail:hover, .contact-mail:focus-visible{
+  background:var(--accent); color:var(--ink); text-decoration-color:transparent;
+}
+.contact-grid{
+  margin-top:3.2rem; padding-top:2.4rem;
+  border-top:var(--bw) solid rgba(239,239,234,.3);
+  display:grid; grid-template-columns:repeat(4,1fr); gap:2rem;
+}
+.contact-grid dt{
+  font:500 .68rem/1 var(--font-mono); letter-spacing:.14em;
+  text-transform:uppercase; color:rgba(239,239,234,.55);
+}
+.contact-grid dd{
+  margin-top:.7rem; font-size:.95rem;
+  display:flex; align-items:center; gap:.6rem;
+}
+.contact .btn--invert{
+  margin-top:3rem;
+  background:var(--accent); color:var(--ink); border-color:var(--accent);
+}
+.contact .btn--invert::after{ background:var(--paper); }
+.contact .btn--invert:hover{ border-color:var(--paper); }
+.site-footer{
+  background:var(--ink); color:rgba(239,239,234,.6);
+  border-top:var(--bw) solid rgba(239,239,234,.25);
+  padding-block:1.5rem;
+  font:400 .72rem/1.6 var(--font-mono);
+  letter-spacing:.04em; text-transform:uppercase;
+}
+.footer-in{ display:flex; flex-wrap:wrap; gap:.75rem 2rem; justify-content:space-between; }
+.site-footer a{ color:rgba(239,239,234,.85); }
+
+/* ══════════════════════════════════════════════════════════
+   11. АДАПТИВ
+   ══════════════════════════════════════════════════════════ */
+@media (min-width:1025px){
+  .motif--sec{ display:block; }
+}
+@media (min-width:1100px){
+  .motif--contact{ display:block; }
+}
+@media (max-width:1024px) and (min-width:641px){
+  .kpi-grid{ grid-template-columns:repeat(2,1fr); }
+  .kpi-grid > div{ padding-block:1.5rem; }
+  .kpi-grid > div:nth-child(odd){ border-left:0; padding-left:0; }
+  .kpi-grid > div:nth-child(-n+2){ padding-top:0; }
+  .kpi-grid > div:nth-child(n+3){ border-top:var(--bw) solid var(--ink); padding-bottom:0; }
+}
+@media (max-width:1024px){
+  .skills-grid{ grid-template-columns:repeat(2,1fr); }
+  .skill-card:nth-child(3n){ border-right:var(--bw) solid var(--ink); }
+  .skill-card:nth-child(2n){ border-right:0; }
+  .skill-card:nth-child(n+4){ border-bottom:var(--bw) solid var(--ink); }
+  .skill-card:nth-child(n+5){ border-bottom:0; }
+  .contact-grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:900px){
+  .hero-grid{ grid-template-columns:1fr; }
+  .photo{ justify-self:start; max-width:min(330px, calc(100% - 14px)); }
+  .edu-grid{ grid-template-columns:1fr; }
+}
+@media (max-width:860px){
+  .site-nav{ display:none; }   /* на мобильных остаётся кнопка «Связаться» */
+}
+@media (max-width:700px){
+  .xp-item{ grid-template-columns:1fr; gap:.9rem; }
+  .xp-when{
+    text-align:left;
+    padding-left:calc(clamp(1.5rem,3vw,2.2rem) + 1px);
+    display:flex; align-items:baseline; column-gap:.8rem; flex-wrap:wrap;
+  }
+  .xp-when .y{ font-size:1.35rem; }
+  .xp-when .tail, .xp-when small{ margin-top:0; }
+  .role-row{ grid-template-columns:2.2rem 1fr auto; gap:.9rem; }
+  .role-row .rarr, .rtag{ display:none; }
+  .role-row .rnote{ font-size:.62rem; max-width:9rem; }
+}
+@media (max-width:640px){
+  .skills-grid{ grid-template-columns:1fr; }
+  .skill-card{ border-right:0 !important; border-bottom:var(--bw) solid var(--ink) !important; }
+  .skill-card:last-child{ border-bottom:0 !important; }
+  .hero-meta{ flex-direction:column; align-items:flex-start; row-gap:.75rem; }
+  .kpi-grid{ grid-template-columns:1fr; }
+  .kpi-grid > div{
+    border-left:0; padding-left:0;
+    padding-block:1.35rem; border-top:var(--bw) solid var(--ink);
+  }
+  .kpi-grid > div:first-child{ border-top:none; padding-top:0; }
+  .kpi-grid > div:last-child{ padding-bottom:0; }
+  .contact-grid{ grid-template-columns:1fr; gap:1.5rem; }
+  .hero-cta .btn{ flex:1 1 100%; }
+  .marquee{ padding-block:.65rem; }
+  .marquee__group{ gap:1.8rem; padding-right:1.8rem; }
+  .marquee__group span{ font-size:.72rem; }
+}
+
+/* Уважение к prefers-reduced-motion: без анимаций, wipe, шторок и курсора */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ transition:none !important; animation:none !important; }
+  .reveal{ opacity:1; transform:none; }
+  .sec-head .sec-title, .contact-title{ clip-path:none !important; }
+  .reveal .rule{ transform:none !important; }
+  .photo__frame::after{ display:none !important; }
+  #cursor{ display:none !important; }
+  #intro{ display:none !important; }
+}
+
+/* Печать: светлая, читаемая, без декора и интерактива */
+@media print{
+  .site-header, .hero-cta, .skip-link, .contact .btn--invert,
+  .motif, .marquee, #progress, #cursor, #intro{ display:none; }
+  .roles{ background:none; color:#000; }
+  .roles .sec-num, .roles .sec-title{ color:#000; border-color:#000; }
+  .role-row, .roles-list{ border-color:#000; }
+  .role-row .rn, .role-row .rname, .role-row .rnote{ color:#000; }
+  body::after{ display:none; }              /* зерно не печатаем */
+  .sec-head .sec-title, .contact-title{ clip-path:none; }
+  .reveal .rule{ transform:none; }
+  .photo__frame::after{ display:none; }
+  .reveal{ opacity:1; transform:none; }
+  body{ background:#fff; color:#000; }
+  .contact, .site-footer{ background:none; color:#000; border-color:#000; }
+  .contact-mail, .contact-grid dd, .contact .sec-num{ color:#000; }
+  .contact-note, .contact-grid dt{ color:#333; }
+  .contact .sec-line .rule{ background:#000; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">К содержанию</a>
+
+<!-- Индикатор скролла (акцентная полоса сверху) -->
+<div id="progress" aria-hidden="true"></div>
+
+<!-- Кастомный курсор (desktop, активируется скриптом) -->
+<div id="cursor" aria-hidden="true"></div>
+
+<!-- ИНТРО-СЛОВОМАРКА (~1.2с, только с JS; при reduced-motion не показывается)
+     [РЕДАКТИРОВАТЬ] строки интро: имя и подпись -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-in">
+    <span class="intro-line"><b>Иван</b></span>
+    <span class="intro-line intro-line--amp"><b>&amp;</b></span>
+    <span class="intro-line"><b>Нештенко</b></span>
+    <p class="intro-tag">Business Development · 2026</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SVG-СПРАЙТ: кастомные угловатые thin-line иконки (stroke 1.5px,
+     square caps) и фирменный мотив «ступени роста» (#m-step).
+     Вставка в любом месте: <svg class="ic"><use href="#i-..."/></svg>
+     ════════════════════════════════════════════════════════ -->
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M12 21.5 5.5 14V4.5h13V14L12 21.5Z"/><rect vector-effect="non-scaling-stroke" x="10.2" y="8" width="3.6" height="3.6"/></g></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><rect vector-effect="non-scaling-stroke" x="7.5" y="3" width="9" height="18"/><path vector-effect="non-scaling-stroke" d="M10.5 17.5h3"/></g></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><rect vector-effect="non-scaling-stroke" x="3.5" y="5.5" width="17" height="13"/><path vector-effect="non-scaling-stroke" d="m4.5 7 7.5 5.5L19.5 7"/></g></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M21 3.5 3.5 10.6l6.4 2.6L12.7 20 21 3.5Z"/><path vector-effect="non-scaling-stroke" d="M21 3.5 9.9 13.2"/></g></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M5 8.5V19h10.5v-6"/><path vector-effect="non-scaling-stroke" d="M11.5 4.5h8v8"/><path vector-effect="non-scaling-stroke" d="M19.5 4.5 11 13"/></g></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><rect vector-effect="non-scaling-stroke" x="4.75" y="4.75" width="14.5" height="14.5"/><rect vector-effect="non-scaling-stroke" x="9.75" y="9.75" width="4.5" height="4.5"/><path vector-effect="non-scaling-stroke" d="M12 1.5v3.25M12 19.25V22.5M1.5 12h3.25M19.25 12h3.25"/></g></symbol>
+  <symbol id="i-talks" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M4 5h10.5v7.5H9.2L6 15.2v-2.7H4V5Z"/><path vector-effect="non-scaling-stroke" d="M17.5 9.5H20V16h-1.5v2.3L15.8 16h-3.6"/></g></symbol>
+  <symbol id="i-network" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><rect vector-effect="non-scaling-stroke" x="10" y="2.75" width="4" height="4"/><rect vector-effect="non-scaling-stroke" x="3" y="16.5" width="4" height="4"/><rect vector-effect="non-scaling-stroke" x="17" y="16.5" width="4" height="4"/><path vector-effect="non-scaling-stroke" d="M11.2 6.9 5.7 16.4M12.8 6.9l5.5 9.5M7.2 18.5h9.6"/></g></symbol>
+  <symbol id="i-funnel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M3.5 4.5h17l-6.5 7.6v5.4l-4 2.5v-7.9L3.5 4.5Z"/></g></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M4 4v16h16"/><path vector-effect="non-scaling-stroke" d="M7 17v-3.2h3.6V10h3.6V6.8H18"/><rect vector-effect="non-scaling-stroke" x="16.6" y="5.4" width="2.8" height="2.8"/></g></symbol>
+  <symbol id="i-model" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><rect vector-effect="non-scaling-stroke" x="8.5" y="3.5" width="7" height="7"/><rect vector-effect="non-scaling-stroke" x="3.5" y="14" width="7" height="7"/><rect vector-effect="non-scaling-stroke" x="13.5" y="14" width="7" height="7"/><path vector-effect="non-scaling-stroke" d="M12 10.5V12M7 14v-2h10v2"/></g></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path vector-effect="non-scaling-stroke" d="M6.5 21.5v-18"/><path vector-effect="non-scaling-stroke" d="M6.5 4.5H18l-2.2 3.2L18 10.9H6.5"/></g></symbol>
+  <symbol id="m-step" viewBox="0 0 220 132"><path vector-effect="non-scaling-stroke" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" d="M2 130v-26h40V76h44V50h46V24h44V8h31"/><rect class="mdot" x="199" y="1" width="14" height="14"/></symbol>
+</svg>
+
+<!-- ════════════════════════════════════════════════════════
+     ШАПКА · [РЕДАКТИРОВАТЬ] имя в логотипе и пункты меню
+     ════════════════════════════════════════════════════════ -->
+<header class="site-header" id="header">
+  <div class="container header-in">
+    <a class="brand" href="#top">Иван Нештенко<b class="tag">BD</b></a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <ul>
+        <li><a href="#results"><span class="sw"><b data-txt="Результаты">Результаты</b></span></a></li>
+        <li><a href="#experience"><span class="sw"><b data-txt="Опыт">Опыт</b></span></a></li>
+        <li><a href="#roles"><span class="sw"><b data-txt="Роли">Роли</b></span></a></li>
+        <li><a href="#skills"><span class="sw"><b data-txt="Компетенции">Компетенции</b></span></a></li>
+        <li><a href="#education"><span class="sw"><b data-txt="Образование">Образование</b></span></a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--primary header-cta" href="#contact" data-magnet><span class="sw"><b data-txt="Связаться">Связаться</b></span></a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ════════════════════════════════════════════════════════
+     ХИРО · [РЕДАКТИРОВАТЬ] имя, должность, value proposition,
+     контакты, ссылки кнопок, фото
+     ════════════════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <!-- [РЕДАКТИРОВАТЬ] Должность (оверлайн) -->
+      <p class="overline reveal">Business Development Manager · B2B</p>
+
+      <!-- [РЕДАКТИРОВАТЬ] Имя и фамилия (+ дубль латиницей строкой ниже) -->
+      <h1 class="hero-name reveal" data-parallax="0.14">Иван<br>Нештенко<span class="dot">.</span></h1>
+      <p class="hero-lat reveal">Ivan Neshtenko</p>
+
+      <!-- [РЕДАКТИРОВАТЬ] Value proposition: 2–3 предложения, главные цифры — в <strong> -->
+      <p class="hero-lead reveal">
+        В проектах с 15 лет: успел поработать аналитиком, дизайнером
+        и проектным менеджером, пока не понял, что моё — переговоры
+        и развитие бизнеса. Сейчас веду B2B-продажи и работаю
+        Business Development Manager. Главный результат года —
+        <strong>закрытая сделка на ₽1 млн</strong>.
+      </p>
+
+      <!-- [РЕДАКТИРОВАТЬ] Факт-строка: город — заглушка, уточните у клиента.
+           Полная дата рождения (21.10.2007) вынесена в блок контактов -->
+      <address class="hero-meta reveal">
+        <span><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Москва</span>
+        <span><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>18 лет · в деле с 15</span>
+        <span><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>РЭУ им. Г. В. Плеханова</span>
+      </address>
+
+      <!-- [РЕДАКТИРОВАТЬ] Кнопки: ссылка на PDF-файл резюме -->
+      <div class="hero-cta reveal">
+        <a class="btn btn--primary" href="#contact" data-magnet><span class="sw"><b data-txt="Обсудить сотрудничество">Обсудить сотрудничество</b></span> <span class="arr">→</span></a>
+        <a class="btn btn--ghost" href="#" download><span class="sw"><b data-txt="Скачать резюме (PDF)">Скачать резюме (PDF)</b></span></a>
+      </div>
+
+      <!-- [РЕДАКТИРОВАТЬ] Статус поиска (заглушка — подтвердите у клиента) -->
+      <p class="chip reveal">Открыт к предложениям</p>
+
+      <!-- Фирменный мотив «ступени роста» (декоративный) -->
+      <svg class="motif motif--hero reveal" viewBox="0 0 220 132" aria-hidden="true"><use href="#m-step"/></svg>
+    </div>
+
+    <!-- [РЕДАКТИРОВАТЬ] ФОТО (клиент пришлёт позже): замените весь .photo__frame на
+         <img class="photo__frame" src="photo.jpg" alt="Иван Нештенко" style="object-fit:cover"> -->
+    <figure class="photo reveal" data-parallax="0.05">
+      <div class="photo__frame" role="img" aria-label="Место для портретного фото">
+        <p class="photo__hint"><b>Фото 4:5</b>Деловой портрет,<br>однотонный фон</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     MARQUEE · [РЕДАКТИРОВАТЬ] слова бегущей строки.
+     Список повторён ДВАЖДЫ для бесшовного цикла —
+     правьте обе копии одинаково.
+     ════════════════════════════════════════════════════════ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <div class="marquee__group">
+      <span>B2B-продажи</span><i></i>
+      <span>Переговоры</span><i></i>
+      <span>CRM</span><i></i>
+      <span>Бизнес-модели</span><i></i>
+      <span>Анализ конкурентов</span><i></i>
+      <span>Партнёрства</span><i></i>
+      <span>Продуктовая аналитика</span><i></i>
+      <span>Big Data</span><i></i>
+    </div>
+    <div class="marquee__group">
+      <span>B2B-продажи</span><i></i>
+      <span>Переговоры</span><i></i>
+      <span>CRM</span><i></i>
+      <span>Бизнес-модели</span><i></i>
+      <span>Анализ конкурентов</span><i></i>
+      <span>Партнёрства</span><i></i>
+      <span>Продуктовая аналитика</span><i></i>
+      <span>Big Data</span><i></i>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     KPI-ПОЛОСА · [РЕДАКТИРОВАТЬ] 4 ключевые цифры.
+     Число анимируется от 0 до data-count-to;
+     data-prefix / data-suffix — то, что вокруг числа.
+     ════════════════════════════════════════════════════════ -->
+<section class="kpi" id="results" aria-label="Ключевые показатели">
+  <div class="container">
+    <div class="sec-line reveal">
+      <p class="overline">Ключевые показатели</p>
+      <i class="rule" aria-hidden="true"></i>
+      <span class="sec-num">01</span>
+    </div>
+    <div class="kpi-grid" data-stagger>
+      <div class="reveal">
+        <p class="kpi__num kpi__num--long"><span class="count" data-count-to="1000000" data-prefix="₽" data-suffix="">₽1 000 000</span></p>
+        <p class="kpi__label">Закрытая сделка</p>
+        <p class="kpi__sub">главный результат года в роли BDM</p>
+      </div>
+      <div class="reveal">
+        <p class="kpi__num"><span class="count" data-count-to="50" data-prefix="" data-suffix="+">50+</span></p>
+        <p class="kpi__label">Бизнес-сессий и кейс-чемпионатов</p>
+        <p class="kpi__sub">почти всегда — с результатом</p>
+      </div>
+      <div class="reveal">
+        <p class="kpi__num"><span class="count" data-count-to="8" data-prefix="" data-suffix="">8</span></p>
+        <p class="kpi__label">Ролей в проектах и командах</p>
+        <p class="kpi__sub">от аналитики до продаж</p>
+      </div>
+      <div class="reveal">
+        <p class="kpi__num"><span class="count" data-count-to="15" data-prefix="с " data-suffix=" лет">с 15 лет</span></p>
+        <p class="kpi__label">В проектах и бизнес-задачах</p>
+        <p class="kpi__sub">сейчас — 18</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     ОПЫТ · [РЕДАКТИРОВАТЬ] каждый <article> — одно место работы.
+     Формула достижения: глагол + что сделал + цифра результата.
+     ════════════════════════════════════════════════════════ -->
+<section class="xp" id="experience">
+  <div class="container">
+    <header class="sec-head reveal">
+      <div class="sec-line">
+        <p class="overline">Опыт работы</p>
+        <i class="rule" aria-hidden="true"></i>
+        <span class="sec-num">02</span>
+      </div>
+      <h2 class="sec-title">Две роли параллельно — и обе про сделки</h2>
+      <svg class="motif motif--sec" viewBox="0 0 220 132" aria-hidden="true"><use href="#m-step"/></svg>
+    </header>
+
+    <!-- [РЕДАКТИРОВАТЬ] Позиция №1 (основная). Компанию клиент уточнит позже:
+         раскомментируйте и заполните строку
+         <p class="xp-co">Название компании <span>· сфера · город</span></p> -->
+    <article class="xp-item reveal">
+      <p class="xp-when"><span class="y">1 год</span><span class="tail">основная роль</span></p>
+      <div class="xp-body">
+        <h3 class="xp-role">Business Development Manager</h3>
+        <ul class="xp-list">
+          <li>Закрыл сделку на <strong>₽1 000 000</strong> — главный результат года.</li>
+          <li>Веду партнёрские переговоры о развитии бизнеса: от первого контакта до конкретных договорённостей.</li>
+          <!-- [РЕДАКТИРОВАТЬ] шаблон достижения: <li>Глагол + что сделал + <strong>цифра</strong>.</li> -->
+        </ul>
+      </div>
+    </article>
+
+    <!-- [РЕДАКТИРОВАТЬ] Позиция №2 (параллельная). Компания — по аналогии выше -->
+    <article class="xp-item reveal">
+      <p class="xp-when"><span class="y">1 год</span><span class="tail">параллельно</span></p>
+      <div class="xp-body">
+        <h3 class="xp-role">Менеджер B2B-продаж</h3>
+        <ul class="xp-list">
+          <li>Веду холодных и тёплых клиентов от первого контакта до сделки.</li>
+          <li>Держу CRM в порядке: по каждой сделке видно статус и следующий шаг.</li>
+          <!-- [РЕДАКТИРОВАТЬ] шаблон достижения: <li>Глагол + что сделал + <strong>цифра</strong>.</li> -->
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     РОЛИ В ПРОЕКТАХ · [РЕДАКТИРОВАТЬ] проектные роли без дат.
+     Когда клиент пришлёт периоды и проекты — впишите их
+     в правую колонку (.rnote) вместо коротких описаний.
+     ════════════════════════════════════════════════════════ -->
+<section class="roles" id="roles">
+  <div class="container">
+    <header class="sec-head reveal">
+      <div class="sec-line">
+        <p class="overline">Роли в проектах</p>
+        <i class="rule" aria-hidden="true"></i>
+        <span class="sec-num">03</span>
+      </div>
+      <h2 class="sec-title">Семь ролей до главной</h2>
+      <p class="sec-lead">С 15 лет заходил в проекты в разных ролях — вот они.
+      Каждая в итоге работает на главную: развитие бизнеса.</p>
+    </header>
+    <!-- Каждая строка: номер / роль (слой-подмена) / тег типа работы /
+         описание (по ховеру — лента «детали по запросу») / стрелка -->
+    <ul class="roles-list reveal" data-stagger>
+      <li class="role-row reveal"><span class="rn">01</span><span class="rname"><span class="sw"><b data-txt="Бизнес-аналитик">Бизнес-аналитик</b></span></span><span class="rtag">аналитика</span><span class="rnote"><span class="rq">процессы и требования</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+      <li class="role-row reveal"><span class="rn">02</span><span class="rname"><span class="sw"><b data-txt="Продуктовый аналитик">Продуктовый аналитик</b></span></span><span class="rtag">аналитика</span><span class="rnote"><span class="rq">метрики и гипотезы</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+      <li class="role-row reveal"><span class="rn">03</span><span class="rname"><span class="sw"><b data-txt="Big Data-аналитик">Big Data-аналитик</b></span></span><span class="rtag">данные</span><span class="rnote"><span class="rq">большие массивы данных</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+      <li class="role-row reveal"><span class="rn">04</span><span class="rname"><span class="sw"><b data-txt="Проектный менеджер">Проектный менеджер</b></span></span><span class="rtag">управление</span><span class="rnote"><span class="rq">сроки, команда, приоритеты</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+      <li class="role-row reveal"><span class="rn">05</span><span class="rname"><span class="sw"><b data-txt="SMM-менеджер">SMM-менеджер</b></span></span><span class="rtag">контент</span><span class="rnote"><span class="rq">контент и площадки</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+      <li class="role-row reveal"><span class="rn">06</span><span class="rname"><span class="sw"><b data-txt="Дизайнер">Дизайнер</b></span></span><span class="rtag">визуал</span><span class="rnote"><span class="rq">макеты и визуальный язык</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+      <li class="role-row reveal"><span class="rn">07</span><span class="rname"><span class="sw"><b data-txt="Репетитор-тьютор">Репетитор-тьютор</b></span></span><span class="rtag">обучение</span><span class="rnote"><span class="rq">объясняю сложное просто</span><span class="rloop" aria-hidden="true">детали по запросу → детали по запросу → детали по запросу → </span></span><span class="rarr" aria-hidden="true">→</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     КОМПЕТЕНЦИИ · [РЕДАКТИРОВАТЬ] 6 карточек
+     ════════════════════════════════════════════════════════ -->
+<section class="skills" id="skills">
+  <div class="container">
+    <header class="sec-head reveal">
+      <div class="sec-line">
+        <p class="overline">Компетенции</p>
+        <i class="rule" aria-hidden="true"></i>
+        <span class="sec-num">04</span>
+      </div>
+      <h2 class="sec-title">Что я делаю лучше всего</h2>
+    </header>
+    <div class="skills-grid" data-stagger>
+      <div class="skill-card reveal">
+        <div class="skill-top"><svg class="ic ic--lg" aria-hidden="true"><use href="#i-funnel"/></svg><span class="skill-num">01</span></div>
+        <h3>Холодные и тёплые продажи</h3>
+        <p>Захожу с холодного контакта без страха и веду клиента до сделки.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-top"><svg class="ic ic--lg" aria-hidden="true"><use href="#i-talks"/></svg><span class="skill-num">02</span></div>
+        <h3>Переговоры</h3>
+        <p>Слышу собеседника, держу цель и не боюсь пауз.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-top"><svg class="ic ic--lg" aria-hidden="true"><use href="#i-target"/></svg><span class="skill-num">03</span></div>
+        <h3>Работа с CRM</h3>
+        <p>Каждая сделка в системе: статус, история, следующий шаг.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-top"><svg class="ic ic--lg" aria-hidden="true"><use href="#i-model"/></svg><span class="skill-num">04</span></div>
+        <h3>Бизнес-модели</h3>
+        <p>Собираю модель бизнеса: кто платит, за что и почему снова.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-top"><svg class="ic ic--lg" aria-hidden="true"><use href="#i-chart"/></svg><span class="skill-num">05</span></div>
+        <h3>Анализ конкурентов</h3>
+        <p>Разбираю чужие продукты и цены до конкретного вывода: где наше место.</p>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-top"><svg class="ic ic--lg" aria-hidden="true"><use href="#i-network"/></svg><span class="skill-num">06</span></div>
+        <h3>Партнёрские переговоры</h3>
+        <p>Договариваюсь о партнёрствах, которые двигают бизнес, а не висят в переписке.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     ОБРАЗОВАНИЕ, СЕРТИФИКАТЫ, ЯЗЫКИ · [РЕДАКТИРОВАТЬ]
+     ════════════════════════════════════════════════════════ -->
+<section class="edu" id="education">
+  <div class="container">
+    <header class="sec-head reveal">
+      <div class="sec-line">
+        <p class="overline">Образование и подход</p>
+        <i class="rule" aria-hidden="true"></i>
+        <span class="sec-num">05</span>
+      </div>
+      <h2 class="sec-title">Учусь бизнесу — и сразу делаю его</h2>
+    </header>
+
+    <div class="edu-grid">
+      <!-- [РЕДАКТИРОВАТЬ] Образование -->
+      <div class="edu-col reveal">
+        <h3>Образование</h3>
+        <div class="edu-feature">
+          <p class="year">Студент</p>
+          <h4>РЭУ им. Г. В. Плеханова</h4>
+          <p class="prog">Профиль — «Предпринимательство и управление бизнесом»</p>
+          <p>Учёба идёт параллельно с работой в продажах — теория сразу проверяется делом.</p>
+        </div>
+        <div class="edu-item">
+          <p class="year">Практика</p>
+          <h4>50+ бизнес-сессий и кейс-чемпионатов</h4>
+          <p>Почти всегда — с результатом.</p>
+        </div>
+        <!-- [РЕДАКТИРОВАТЬ] сюда позже добавятся курсы и сертификаты
+             по шаблону .edu-item выше -->
+      </div>
+
+      <!-- [РЕДАКТИРОВАТЬ] Личные качества — манифест «Как я работаю» -->
+      <div class="edu-col reveal">
+        <h3>Как я работаю</h3>
+        <ul class="how-list" data-stagger>
+          <li class="reveal">Быстро разбираюсь в новом — это привычка, а не подвиг.</li>
+          <li class="reveal">Адаптируюсь к задаче, а не жду, пока задача подстроится.</li>
+          <li class="reveal">В стрессе собираюсь, а не сыплюсь.</li>
+          <li class="reveal">Открыт к людям и прямому разговору.</li>
+          <li class="reveal">Решение нахожу тогда, когда оно нужно, а не когда удобно.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════
+     ФИНАЛЬНЫЙ CTA · [РЕДАКТИРОВАТЬ] заголовок и все контакты
+     ════════════════════════════════════════════════════════ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <svg class="motif motif--contact" viewBox="0 0 220 132" aria-hidden="true"><use href="#m-step"/></svg>
+    <div class="sec-line reveal">
+      <p class="overline">Контакты</p>
+      <i class="rule" aria-hidden="true"></i>
+      <span class="sec-num">06</span>
+    </div>
+    <h2 class="contact-title reveal">Обсудим, какие сделки я закрою для вас?</h2>
+    <p class="contact-note reveal">
+      Пишите — отвечаю сам и быстро.
+    </p>
+
+    <!-- [РЕДАКТИРОВАТЬ] Главный e-mail — ЗАГЛУШКА, клиент пришлёт позже -->
+    <a class="contact-mail reveal" href="mailto:email@example.com">email@example.com</a>
+
+    <!-- [РЕДАКТИРОВАТЬ] Сетка контактов — телефон и Telegram ЗАГЛУШКИ,
+         город уточнить у клиента; дата рождения — реальная -->
+    <dl class="contact-grid" data-stagger>
+      <div class="reveal">
+        <dt>Телефон</dt>
+        <dd><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><a class="link-line" href="tel:+79000000000">+7 (900) 000-00-00</a></dd>
+      </div>
+      <div class="reveal">
+        <dt>Telegram</dt>
+        <dd><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><a class="link-line" href="https://t.me/username" rel="noopener">@username</a></dd>
+      </div>
+      <div class="reveal">
+        <dt>Локация</dt>
+        <dd><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Москва, Россия</dd>
+      </div>
+      <div class="reveal">
+        <dt>Дата рождения</dt>
+        <dd><svg class="ic" aria-hidden="true"><use href="#i-target"/></svg>21.10.2007</dd>
+      </div>
+    </dl>
+
+    <a class="btn btn--invert reveal" href="mailto:email@example.com" data-magnet><span class="sw"><b data-txt="Написать письмо">Написать письмо</b></span> <span class="arr">→</span></a>
+  </div>
+</section>
+
+</main>
+
+<!-- ПОДВАЛ · [РЕДАКТИРОВАТЬ] имя и дату обновления -->
+<footer class="site-footer">
+  <div class="container footer-in">
+    <p>© 2026 Нештенко Иван Сергеевич · Резюме обновлено: июль 2026</p>
+    <a class="link-line" href="#top">Наверх ↑</a>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   ИНТЕРАКТИВ (vanilla JS, transform/opacity, один rAF-цикл):
+   1) интро при загрузке: пробег полосы + каскад хиро (~1.1с);
+   2) scroll-появления: wipe-заголовки, растущие линейки,
+      шторка фото, жёсткий stagger списков;
+   3) KPI-счётчики со scramble-цифрами; scramble годов и номеров;
+   4) scroll-progress, nav-подсветка, parallax (desktop);
+   5) marquee на rAF: ускоряется от скорости скролла (desktop);
+   6) magnetic-кнопки, hover-scramble в навигации;
+   7) кастомный курсор-квадрат (desktop + fine pointer).
+   Всё уважает prefers-reduced-motion; без JS страница читаема.
+   ══════════════════════════════════════════════════════════ */
+(function(){
+  document.documentElement.classList.remove('no-js');
+
+  var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine    = window.matchMedia('(pointer: fine)').matches;
+  var desktop = window.innerWidth > 900;
+  var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  var CHARS   = '0123456789/|=+#АБВГДЕЖЗИКЛМНОПРСТУХ';
+
+  /* Ступенчатая задержка внутри групп [data-stagger] */
+  document.querySelectorAll('[data-stagger]').forEach(function(group){
+    Array.prototype.forEach.call(group.querySelectorAll('.reveal'), function(el, i){
+      el.style.transitionDelay = (i * 45) + 'ms';
+    });
+  });
+
+  /* Scramble: жёсткий перебор символов до фиксации текста */
+  function scramble(el, dur){
+    if(reduce || el.__busy) return;
+    var text = el.__orig || (el.__orig = el.textContent);
+    var t0 = null; el.__busy = true;
+    function frame(t){
+      if(!t0) t0 = t;
+      var p = Math.min((t - t0) / (dur || 360), 1);
+      var out = '';
+      for(var i = 0; i < text.length; i++){
+        var ch = text[i];
+        out += (ch === ' ' || i < p * text.length)
+          ? ch
+          : CHARS[(Math.random() * CHARS.length) | 0];
+      }
+      el.textContent = out;
+      if(p < 1){ requestAnimationFrame(frame); } else { el.textContent = text; el.__busy = false; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* Счётчик KPI: count-up + scramble младших разрядов */
+  function runCounter(el){
+    var to = parseFloat(el.getAttribute('data-count-to')) || 0;
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    var t0 = null, DUR = 950;
+    function frame(t){
+      if(!t0) t0 = t;
+      var p = Math.min((t - t0) / DUR, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      var s = Math.round(to * eased).toLocaleString('ru-RU');
+      if(p < .82 && !reduce){          /* «перебор» двух младших цифр */
+        var arr = s.split(''), swapped = 0;
+        for(var i = arr.length - 1; i >= 0 && swapped < 2; i--){
+          if(/[0-9]/.test(arr[i])){ arr[i] = String((Math.random() * 10) | 0); swapped++; }
+        }
+        s = arr.join('');
+      }
+      el.textContent = prefix + s + suffix;
+      if(p < 1){ requestAnimationFrame(frame); } else { el.__done = true; }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* Появления: is-visible + счётчики + scramble меток */
+  var counted = new WeakSet();
+  function activate(el){
+    el.classList.add('is-visible');
+    el.querySelectorAll('.count').forEach(function(c){
+      if(!counted.has(c)){ counted.add(c); runCounter(c); }
+    });
+    if(!reduce){
+      el.querySelectorAll('.sec-num, .xp-when .y').forEach(function(s){ scramble(s, 320); });
+      if(el.classList.contains('sec-line')){
+        var n = el.querySelector('.sec-num'); if(n) scramble(n, 320);
+      }
+    }
+  }
+
+  var heroBox   = document.getElementById('top');
+  var heroEls   = heroBox ? Array.prototype.slice.call(heroBox.querySelectorAll('.reveal')) : [];
+  var restEls   = reveals.filter(function(el){ return heroEls.indexOf(el) === -1; });
+  var progress  = document.getElementById('progress');
+
+  if(reduce || !('IntersectionObserver' in window)){
+    reveals.forEach(function(el){ el.classList.add('is-visible'); });
+  } else {
+    /* Интро-словомарка «ИВАН & НЕШТЕНКО» (~1.2с) → жёсткий уход вверх,
+       под ним параллельно собирается хиро; полоса пробегает следом */
+    var introEl = document.getElementById('intro');
+    var introShown = false;
+    if(introEl){
+      introShown = true;
+      document.documentElement.classList.add('has-intro');
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ introEl.classList.add('go'); }); });
+      setTimeout(function(){ introEl.classList.add('done'); }, 780);
+      setTimeout(function(){
+        introEl.style.display = 'none';
+        document.documentElement.classList.remove('has-intro');
+      }, 1280);
+    }
+    var base = introShown ? 640 : 120;
+    if(progress){
+      setTimeout(function(){
+        progress.style.transition = 'transform .55s cubic-bezier(.19,1,.22,1)';
+        progress.style.transform = 'scaleX(1)';
+        setTimeout(function(){ progress.style.transition = 'none'; }, 620);
+      }, introShown ? 620 : 0);
+    }
+    heroEls.forEach(function(el, i){
+      el.style.transitionDelay = (base + i * 85) + 'ms';
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ activate(el); }); });
+    });
+    setTimeout(function(){
+      heroEls.forEach(function(el){ el.style.transitionDelay = ''; });
+      var lat = document.querySelector('.hero-lat'); if(lat) scramble(lat, 420);
+    }, base + 1100);
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        activate(entry.target);
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    restEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* Parallax-цели */
+  var pxEls = [];
+  if(!reduce && fine && desktop){
+    document.querySelectorAll('[data-parallax]').forEach(function(el){
+      pxEls.push({ el: el, k: parseFloat(el.getAttribute('data-parallax')) || 0.1 });
+      el.style.willChange = 'transform';
+    });
+  }
+  var heroEnd = 0;
+  function measure(){
+    heroEnd = heroBox ? (heroBox.offsetTop + heroBox.offsetHeight + 200) : 0;
+    mqHalf = mqTrack ? mqTrack.scrollWidth / 2 : 0;
+  }
+
+  /* Marquee на rAF: базовый ход + ускорение от скорости скролла */
+  var mqTrack = document.querySelector('.marquee__track');
+  var mqBox   = document.querySelector('.marquee');
+  var mqHalf = 0, mqX = 0, mqPaused = false, mqJS = false;
+  if(mqTrack && !reduce && fine && desktop){
+    mqJS = true;
+    mqTrack.style.animation = 'none';
+    if(mqBox){
+      mqBox.addEventListener('mouseenter', function(){ mqPaused = true; });
+      mqBox.addEventListener('mouseleave', function(){ mqPaused = false; });
+    }
+  }
+
+  /* Кастомный курсор-квадрат */
+  var cursor = document.getElementById('cursor');
+  var cx = -50, cy = -50, tx = -50, ty = -50, cOn = false, cSeen = false;
+  if(cursor && !reduce && fine && desktop){
+    document.documentElement.classList.add('has-cursor');
+    document.addEventListener('pointermove', function(e){
+      tx = e.clientX; ty = e.clientY;
+      if(!cSeen){ cSeen = true; cx = tx; cy = ty; cursor.style.opacity = '.95'; }
+    }, { passive: true });
+    document.addEventListener('mouseleave', function(){ cSeen = false; cursor.style.opacity = '0'; });
+    document.addEventListener('mouseover', function(e){
+      cOn = !!(e.target.closest && e.target.closest('a, button, .role-row, .skill-card, [data-magnet]'));
+      cursor.classList.toggle('is-on', cOn);
+    });
+  } else if(cursor){
+    cursor.style.display = 'none';
+  }
+
+  /* ЕДИНЫЙ rAF-ЦИКЛ: progress + parallax + marquee + курсор */
+  var prevY = window.scrollY || 0, velo = 0, introDone = false;
+  setTimeout(function(){ introDone = true; }, 1600);
+  function loop(){
+    var y = window.scrollY || 0;
+    velo = y - prevY; prevY = y;
+    if(progress && introDone){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = 'scaleX(' + (h > 0 ? Math.min(y / h, 1) : 0) + ')';
+    }
+    if(y <= heroEnd){
+      for(var i = 0; i < pxEls.length; i++){
+        pxEls[i].el.style.transform = 'translate3d(0,' + (y * pxEls[i].k).toFixed(1) + 'px,0)';
+      }
+    }
+    if(mqJS && mqHalf > 0 && !mqPaused){
+      mqX -= 0.55 + Math.min(Math.abs(velo) * 0.06, 2.4);
+      if(-mqX >= mqHalf) mqX += mqHalf;
+      mqTrack.style.transform = 'translate3d(' + mqX.toFixed(1) + 'px,0,0)';
+    }
+    if(cSeen){
+      cx += (tx - cx) * .22; cy += (ty - cy) * .22;
+      cursor.style.transform = 'translate3d(' + (cx - 4.5).toFixed(1) + 'px,' + (cy - 4.5).toFixed(1) + 'px,0)' + (cOn ? ' scale(2.8)' : '');
+    }
+    requestAnimationFrame(loop);
+  }
+  measure();
+  setTimeout(measure, 400);              /* повторный замер после загрузки шрифтов */
+  window.addEventListener('resize', measure, { passive: true });
+  requestAnimationFrame(loop);
+
+  /* Подсветка текущей секции в навигации */
+  var navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
+  if(navLinks.length && 'IntersectionObserver' in window){
+    var map = {};
+    navLinks.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var link = map[entry.target.id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          navLinks.forEach(function(a){ a.classList.remove('is-current'); });
+          link.classList.add('is-current');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    Object.keys(map).forEach(function(id){
+      var sec = document.getElementById(id);
+      if(sec) spy.observe(sec);
+    });
+  }
+
+  /* Hover-переброс цифр KPI (desktop; после завершения счётчика) */
+  if(!reduce && fine){
+    document.querySelectorAll('.kpi-grid > div').forEach(function(cell){
+      cell.addEventListener('mouseenter', function(){
+        var c = cell.querySelector('.count');
+        if(c && c.__done) scramble(c, 300);
+      });
+    });
+  }
+
+  /* Magnetic-кнопки: лёгкое притяжение к курсору (max 6px) */
+  if(!reduce && fine){
+    document.querySelectorAll('[data-magnet]').forEach(function(btn){
+      var pressed = false;
+      function apply(dx, dy){
+        btn.style.transform = 'translate(' + dx + 'px,' + dy + 'px)' + (pressed ? ' scale(.97)' : '');
+      }
+      btn.addEventListener('pointermove', function(e){
+        var r = btn.getBoundingClientRect();
+        var dx = ((e.clientX - r.left) / r.width - .5) * 12;
+        var dy = ((e.clientY - r.top) / r.height - .5) * 8;
+        apply(Math.max(-6, Math.min(6, dx)), Math.max(-4, Math.min(4, dy)));
+      });
+      btn.addEventListener('pointerdown', function(){ pressed = true; });
+      window.addEventListener('pointerup', function(){ pressed = false; });
+      btn.addEventListener('pointerleave', function(){
+        pressed = false;
+        btn.style.transition = 'transform .25s cubic-bezier(.19,1,.22,1)';
+        btn.style.transform = '';
+        setTimeout(function(){ btn.style.transition = ''; }, 260);
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
