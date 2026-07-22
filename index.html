@@ -819,8 +819,16 @@ html.has-intro #intro{ display:grid; }
   #intro{ display:none !important; }
 }
 
-/* Печать: светлая, читаемая */
+/* Печать: светлая, читаемая, компактная (A4) */
 @media print{
+  html{
+    /* ужатая шкала, чтобы резюме занимало 3–4 страницы */
+    --sp-section:2.4rem;
+    --fs-hero:3rem;
+    --fs-poster:1.55rem;
+    --fs-h2:1.45rem;
+    --fs-kpi:1.5rem;
+  }
   .site-header, .hero-cta, .skip-link, .contact .btn--invert,
   .motif, .marquee, #progress, #cursor, #intro{ display:none; }
   body::after{ display:none; }
@@ -831,20 +839,47 @@ html.has-intro #intro{ display:grid; }
   .lang__bar, .lang{ border-color:#000; }
   .reveal{ opacity:1; transform:none; }
   body{ background:#fff; color:#000; }
-  .hero-name, .kpi__num, .xp-when .y, .role-block .rname,
-  .edu-item .year, .contact-mail, .footer-mark .amp{ color:#000; }
+  /* Компактные отступы и медиа */
+  .hero{ padding-block:1.2rem 1.6rem; }
+  .photo{ max-width:230px; margin-top:1.4rem; }
+  .still{ max-width:300px; }
+  .kpi{ padding-block:1.4rem; }
+  .kpi .sec-line{ margin-bottom:1.2rem; }
+  .sec-head{ margin-bottom:1.2rem; }
+  .xp-item + .xp-item{ margin-top:1.6rem; }
+  .xp-note{ margin-top:1.4rem; }
+  .role-block{ padding-block:.65rem; }
+  .role-cta{ margin-top:.3rem; }
+  .role-cta i:not(.mid){ display:none; }   /* один CTA вместо трёх */
+  .skill-card{ padding:1rem .9rem 1.1rem; }
+  .langs{ margin-top:1.2rem; }
+  .contact-grid{ margin-top:1.4rem; padding-top:1.2rem; gap:1rem; }
+  .contact-mail{ margin-top:1.2rem; }
+  .footer-mark{ font-size:1.3rem; }
+  /* Аккуратные разрывы страниц: не рвать карточки и строки */
+  .skill-card, .edu-item, .edu-feature, .xp-item, .role-block,
+  .kpi-grid > div, .how-list li, .lang, .contact-grid > div,
+  .photo, .still, .langs{ break-inside:avoid; page-break-inside:avoid; }
+  .sec-head{ break-after:avoid; page-break-after:avoid; }
+  /* Все акцентные и светлые тексты — в чернила */
+  .hero-name, .hero-name .dot, .kpi__num, .xp-when .y,
+  .role-block .rname, .role-block:nth-child(odd) .rname,
+  .edu-item .year, .contact-mail, .footer-mark .amp,
+  .overline, .contact .overline, .sec-num, .contact .sec-num,
+  .chip, .edu-feature .prog{ color:#000; }
   .sec-title, .contact-title, .xp-role, .skill-card h3, .edu-feature h4,
   .footer-mark, .kpi__label, .contact-grid dd, .xp-list strong,
-  .hero-lead strong, .edu-item h4, .how-list li, .brand{ color:#000; }
+  .hero-lead strong, .edu-item h4, .how-list li, .brand,
+  .lang__n{ color:#000; }
   .hero-lead, .sec-lead, .xp-list li, .skill-card p, .edu-feature p,
   .edu-item p, .contact-note, .xp-co, .hero-meta, .xp-when,
   .role-block .rtag, .role-cta, .kpi__sub, .contact-grid dt,
-  .footer-meta, .hero-lat, .photo__hint{ color:#333; }
+  .footer-meta, .hero-lat, .photo__hint, .lang__lvl{ color:#333; }
   .skills-grid, .skill-card, .edu-feature, .edu-item, .kpi-grid > div,
   .how-list li, .contact-grid, .site-footer, .footer-meta, .kpi,
-  .contact, .how-list, .sec-num{ border-color:#000 !important; }
+  .contact, .how-list, .sec-num, .chip{ border-color:#000 !important; }
   .sec-line .rule{ background:#000; }
-  .edu-feature::before, .photo::before, .chip::before,
+  .edu-feature::before, .photo::before, .still::before, .chip::before,
   .edu-item .year::before, .how-list li::before,
   .xp-list li::before, .overline::before{ background:#000; }
 }
@@ -944,12 +979,13 @@ html.has-intro #intro{ display:grid; }
       <span><a class="link-line" href="https://t.me/ivan_wlb" rel="noopener">TG @ivan_wlb</a></span>
     </address>
 
-    <!-- [РЕДАКТИРОВАТЬ] Кнопки. «Сохранить PDF» открывает системную печать
-         (print-стили светлые → «Сохранить как PDF»). Если появится готовый
-         PDF-файл — замените <button> на <a href="resume.pdf" download> -->
+    <!-- [РЕДАКТИРОВАТЬ] Кнопки. «Сохранить PDF» отдаёт готовый файл
+         Ivan_Neshtenko_CV.pdf (лежит рядом с этим html). После правок сайта
+         перегенерируйте PDF (печать страницы в PDF со светлыми стилями)
+         и замените файл под тем же именем -->
     <div class="hero-cta reveal">
       <a class="btn btn--primary" href="#contact" data-magnet><span class="sw"><b data-txt="Обсудить сотрудничество">Обсудить сотрудничество</b></span> <span class="arr">→</span></a>
-      <button type="button" class="btn btn--ghost" id="btn-pdf"><span class="sw"><b data-txt="Сохранить PDF">Сохранить PDF</b></span></button>
+      <a class="btn btn--ghost" href="./Ivan_Neshtenko_CV.pdf" download="Ivan_Neshtenko_CV.pdf"><span class="sw"><b data-txt="Сохранить PDF">Сохранить PDF</b></span></a>
     </div>
 
     <!-- [РЕДАКТИРОВАТЬ] Статус поиска (заглушка — подтвердите у клиента) -->
@@ -1552,13 +1588,6 @@ html.has-intro #intro{ display:grid; }
         if(c && c.__done) scramble(c, 300);
       });
     });
-  }
-
-  /* Кнопка «Сохранить PDF»: системная печать → «Сохранить как PDF»
-     (print-стили страницы светлые). Работает кликом, Enter и тапом */
-  var pdfBtn = document.getElementById('btn-pdf');
-  if(pdfBtn){
-    pdfBtn.addEventListener('click', function(){ window.print(); });
   }
 
   /* Magnetic-кнопки: лёгкое притяжение к курсору (max 6px) */
