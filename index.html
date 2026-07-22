@@ -657,6 +657,40 @@ html.has-intro #intro{ display:grid; }
 }
 .how-list li:hover{ background:rgba(198,241,53,.09); padding-left:.6rem; }
 
+/* Языки: компактные строки с полосой-заполнением */
+.langs{ margin-top:1.7rem; }
+.lang{
+  display:grid; grid-template-columns:auto auto 1fr;
+  align-items:center; gap:1.1rem;
+  border-top:1px solid var(--line);
+  padding-block:.9rem;
+}
+.lang__n{
+  font:600 .95rem/1.2 var(--font-display);
+  text-transform:uppercase; letter-spacing:.04em;
+}
+.lang__lvl{
+  font:500 .66rem/1 var(--font-mono);
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--mute);
+}
+.lang__bar{
+  position:relative; height:8px;
+  border:1px solid var(--line-mid);
+}
+.lang__bar i{
+  position:absolute; inset:0; width:var(--w,50%);
+  background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .5s var(--ease) .15s;
+}
+.langs.is-visible .lang__bar i{ transform:scaleX(1); }
+.no-js .lang__bar i{ transform:none; }
+
+/* Строка-факт под опытом (международная компания) */
+.xp-note{ margin-top:clamp(2.5rem, 6vw, 4rem); text-align:center; }
+.xp-note .chip{ margin-top:0; }
+
 /* ══════════════════════════════════════════════════════════
    10. КОНТАКТ — финальный плакат + ПОДВАЛ-СЛОВОМАРКА
    ══════════════════════════════════════════════════════════ */
@@ -780,6 +814,7 @@ html.has-intro #intro{ display:grid; }
   .sec-head .sec-title, .contact-title{ clip-path:none !important; }
   .reveal .rule{ transform:none !important; }
   .photo__frame::after{ display:none !important; }
+  .lang__bar i{ transform:none !important; }
   #cursor{ display:none !important; }
   #intro{ display:none !important; }
 }
@@ -792,6 +827,8 @@ html.has-intro #intro{ display:grid; }
   .sec-head .sec-title, .contact-title{ clip-path:none; }
   .reveal .rule{ transform:none; }
   .photo__frame::after{ display:none; }
+  .lang__bar i{ transform:none; background:#000; }
+  .lang__bar, .lang{ border-color:#000; }
   .reveal{ opacity:1; transform:none; }
   body{ background:#fff; color:#000; }
   .hero-name, .kpi__num, .xp-when .y, .role-block .rname,
@@ -904,6 +941,7 @@ html.has-intro #intro{ display:grid; }
       <span>Москва</span>
       <span>18 лет · в деле с 15</span>
       <span>РЭУ им. Г. В. Плеханова</span>
+      <span><a class="link-line" href="https://t.me/ivan_wlb" rel="noopener">TG @ivan_wlb</a></span>
     </address>
 
     <!-- [РЕДАКТИРОВАТЬ] Кнопки: ссылка на PDF-файл резюме -->
@@ -1031,6 +1069,10 @@ html.has-intro #intro{ display:grid; }
         <!-- [РЕДАКТИРОВАТЬ] шаблон достижения: <li>Глагол + что сделал + <strong>цифра</strong>.</li> -->
       </ul>
     </article>
+
+    <!-- [РЕДАКТИРОВАТЬ: уточнить компанию/роль/период] Факт от клиента —
+         опыт в международной компании, деталей пока нет -->
+    <p class="xp-note reveal"><span class="chip">+ опыт в международной компании — детали при разговоре</span></p>
   </div>
 </section>
 
@@ -1170,6 +1212,21 @@ html.has-intro #intro{ display:grid; }
         </div>
         <!-- [РЕДАКТИРОВАТЬ] сюда позже добавятся курсы и сертификаты
              по шаблону .edu-item выше -->
+
+        <!-- [РЕДАКТИРОВАТЬ] Языки: уровень и заполнение полосы (--w: 0–100%) -->
+        <div class="langs reveal">
+          <h3>Языки</h3>
+          <div class="lang">
+            <span class="lang__n">Русский</span>
+            <span class="lang__lvl">родной</span>
+            <span class="lang__bar" aria-hidden="true"><i style="--w:100%"></i></span>
+          </div>
+          <div class="lang">
+            <span class="lang__n">Английский</span>
+            <span class="lang__lvl">B2</span>
+            <span class="lang__bar" aria-hidden="true"><i style="--w:65%"></i></span>
+          </div>
+        </div>
       </div>
 
       <!-- [РЕДАКТИРОВАТЬ] Личные качества — манифест «Как я работаю» -->
@@ -1211,19 +1268,18 @@ html.has-intro #intro{ display:grid; }
       Пишите — отвечаю сам и быстро.
     </p>
 
-    <!-- [РЕДАКТИРОВАТЬ] Главный e-mail — ЗАГЛУШКА, клиент пришлёт позже -->
-    <a class="contact-mail reveal" href="mailto:email@example.com">email@example.com</a>
+    <a class="contact-mail reveal" href="mailto:ivan_neshtenko@mail.ru">ivan_neshtenko@mail.ru</a>
 
-    <!-- [РЕДАКТИРОВАТЬ] Сетка контактов — телефон и Telegram ЗАГЛУШКИ,
-         город уточнить у клиента; дата рождения — реальная -->
+    <!-- Сетка контактов — данные реальные.
+         [РЕДАКТИРОВАТЬ] город: подтвердить у клиента -->
     <dl class="contact-grid" data-stagger>
       <div class="reveal">
         <dt>Телефон</dt>
-        <dd><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><a class="link-line" href="tel:+79000000000">+7 (900) 000-00-00</a></dd>
+        <dd><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><a class="link-line" href="tel:+79959908267">+7 995 990-82-67</a></dd>
       </div>
       <div class="reveal">
         <dt>Telegram</dt>
-        <dd><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><a class="link-line" href="https://t.me/username" rel="noopener">@username</a></dd>
+        <dd><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><a class="link-line" href="https://t.me/ivan_wlb" rel="noopener">@ivan_wlb</a></dd>
       </div>
       <div class="reveal">
         <dt>Локация</dt>
@@ -1235,7 +1291,7 @@ html.has-intro #intro{ display:grid; }
       </div>
     </dl>
 
-    <a class="btn btn--invert reveal" href="mailto:email@example.com" data-magnet><span class="sw"><b data-txt="Написать письмо">Написать письмо</b></span> <span class="arr">→</span></a>
+    <a class="btn btn--invert reveal" href="mailto:ivan_neshtenko@mail.ru" data-magnet><span class="sw"><b data-txt="Написать письмо">Написать письмо</b></span> <span class="arr">→</span></a>
   </div>
 </section>
 
