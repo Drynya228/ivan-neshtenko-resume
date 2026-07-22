@@ -100,6 +100,9 @@ section[id]{ scroll-margin-top:84px; }
   padding-inline:clamp(1.25rem, 5vw, 3rem);
 }
 
+/* Элементы только для печати (на экране скрыты всегда) */
+.print-only{ display:none !important; }
+
 /* Доступность: skip-link и видимый фокус */
 .skip-link{
   position:absolute; left:1rem; top:-100%; z-index:600;
@@ -819,69 +822,166 @@ html.has-intro #intro{ display:grid; }
   #intro{ display:none !important; }
 }
 
-/* Печать: светлая, читаемая, компактная (A4) */
+/* ══════════════════════════════════════════════════════════
+   ПЕЧАТЬ: документ-CV на 2 страницы A4 (не распечатка лендинга).
+   Экранную версию не затрагивает. Дух брутализма — в деталях:
+   моно-метки, тонкие линейки, номера секций.
+   ══════════════════════════════════════════════════════════ */
 @media print{
-  html{
-    /* ужатая шкала, чтобы резюме занимало 3–4 страницы */
-    --sp-section:2.4rem;
-    --fs-hero:3rem;
-    --fs-poster:1.55rem;
-    --fs-h2:1.45rem;
-    --fs-kpi:1.5rem;
-  }
-  .site-header, .hero-cta, .skip-link, .contact .btn--invert,
-  .motif, .marquee, #progress, #cursor, #intro{ display:none; }
+  /* — база документа — */
+  body{ background:#fff; color:#000; font-size:10pt; line-height:1.45; }
   body::after{ display:none; }
+  .site-header, .hero-cta, .skip-link, .marquee, .motif,
+  #progress, #cursor, #intro, .hero .chip, .still,
+  .contact, .site-footer, .sec-lead{ display:none !important; }
+  .print-only{ display:block !important; }
+  .reveal{ opacity:1 !important; transform:none !important; }
   .sec-head .sec-title, .contact-title{ clip-path:none; }
   .reveal .rule{ transform:none; }
   .photo__frame::after{ display:none; }
+  .container{ max-width:none; padding-inline:0; }
+
+  /* — компактные каркасные строки секций — */
+  .sec-line{ gap:3mm; }
+  .sec-line .rule{ background:#000; height:.5pt; transform:none; }
+  .overline{ color:#000; font-size:7pt; letter-spacing:.18em; }
+  .overline::before{ background:#000; border:0; width:6px; height:6px; }
+  .sec-num{ color:#000; border:.5pt solid #000; font-size:6pt; padding:.35em .5em; }
+  .sec-head{ margin-bottom:3mm; break-after:avoid; page-break-after:avoid; }
+  .sec-title{ font-size:13pt; line-height:1.1; text-align:left; margin-top:2mm; color:#000; }
+
+  /* — СТР.1 · ШАПКА: имя + контакты слева, мини-фото справа — */
+  .hero{ padding:0 0 5mm; overflow:visible; text-align:left; }
+  .hero .container{
+    display:grid; grid-template-columns:1fr 32mm;
+    column-gap:8mm; grid-auto-rows:min-content;
+  }
+  .hero .overline{ grid-column:1; grid-row:1; justify-content:flex-start; }
+  .hero .overline::before{ display:inline-block; }
+  .hero-name{
+    grid-column:1; grid-row:2;
+    font-size:20pt; line-height:1.04; letter-spacing:.01em;
+    color:#000; margin-top:2mm;
+  }
+  .hero-name .dot{ color:#000; }
+  .hero-lat{ grid-column:1; grid-row:3; font-size:6.5pt; letter-spacing:.3em; color:#333; margin-top:1.5mm; }
+  .print-contacts{
+    grid-column:1; grid-row:4;
+    margin-top:2.5mm;
+    font:500 8.5pt/1.5 var(--font-mono);
+    color:#000;
+  }
+  .hero-meta{
+    grid-column:1; grid-row:5;
+    margin-top:1mm; padding-top:0; border:0;
+    justify-content:flex-start; column-gap:4mm;
+    font-size:7pt; color:#333;
+  }
+  .hero-lead{
+    grid-column:1 / -1; grid-row:6;
+    margin:4mm 0 0; max-width:none;
+    font-size:9.5pt; color:#111;
+  }
+  .hero-lead strong{ color:#000; }
+  .photo{ grid-column:2; grid-row:1 / 6; margin:0; max-width:none; width:32mm; }
+  .photo::before{ display:none; }
+  .photo__frame{ border:.5pt solid #000; }
+
+  /* — KPI одной строкой — */
+  .kpi{ padding:3.5mm 0; border-top:.75pt solid #000; border-bottom:.75pt solid #000; }
+  .kpi .sec-line{ display:none; }
+  .kpi-grid{ grid-template-columns:repeat(4,1fr) !important; }
+  .kpi-grid > div{
+    border:0 !important; border-left:.5pt solid #999 !important;
+    padding:0 2mm 0 4mm !important;
+  }
+  .kpi-grid > div:first-child{ border-left:0 !important; padding-left:0 !important; }
+  .kpi__num{ font-size:13pt; color:#000; background:none; padding:0; margin:0; width:auto; }
+  .kpi__label{ font-size:8pt; line-height:1.3; margin-top:1mm; color:#000; }
+  .kpi__sub{ font-size:6.5pt; margin-top:.5mm; color:#555; }
+
+  /* — Опыт: документные записи — */
+  .xp{ padding:5mm 0 0; }
+  .xp-item{ text-align:left; }
+  .xp-item + .xp-item{ margin-top:4mm; }
+  .xp-when{ font-size:7pt; letter-spacing:.15em; color:#333; }
+  .xp-when .y{ color:#000; }
+  .xp-role{ font-size:12.5pt; line-height:1.15; margin-top:1mm; color:#000; }
+  .xp-list{ margin:1.5mm 0 0; max-width:none; }
+  .xp-list li{ font-size:9pt; color:#222; margin-bottom:1mm; padding-left:5mm; }
+  .xp-list li::before{ background:#000; width:3mm; height:.5pt; top:.65em; }
+  .xp-list strong{ color:#000; }
+  .xp-note{ margin-top:3mm; text-align:left; }
+  .xp-note .chip{
+    margin-top:0; border:.5pt solid #000; color:#000;
+    font-size:6.5pt; padding:.5em .8em;
+  }
+  .chip::before{ background:#000; border:0; }
+
+  /* — Роли: компактный список с тегами — */
+  .roles{ padding:5mm 0 0; }
+  .role-block{
+    text-align:left; padding:1.6mm .5mm;
+    border-bottom:.5pt solid #bbb;
+    display:grid; grid-template-columns:1fr auto; align-items:baseline;
+  }
+  .role-block .rname, .role-block:nth-child(odd) .rname{
+    grid-column:1; grid-row:1;
+    font-size:10.5pt; color:#000;
+  }
+  .role-block .rtag{ grid-column:2; grid-row:1; font-size:6.5pt; letter-spacing:.2em; color:#555; }
+  .role-cta{ display:none; }
+
+  /* — Компетенции: плотная сетка 3×2; стр.2 начинается отсюда — */
+  .skills{ padding:0; break-before:page; page-break-before:always; }
+  .skills-grid{ grid-template-columns:repeat(3,1fr) !important; border:.75pt solid #000; }
+  .skill-card{
+    background:#fff !important;
+    border-right:.5pt solid #000 !important;
+    border-bottom:.5pt solid #000 !important;
+    padding:2.5mm 3mm;
+  }
+  .skill-card:nth-child(3n){ border-right:0 !important; }
+  .skill-card:nth-child(n+4){ border-bottom:0 !important; }
+  .skill-card .ic{ width:10px; height:10px; color:#000; }
+  .skill-num{ font-size:6pt; color:#777; }
+  .skill-card h3{ font-size:8.5pt; margin-top:1.5mm; color:#000; }
+  .skill-card p{ font-size:8pt; line-height:1.4; margin-top:.8mm; color:#333; }
+
+  /* — Образование / языки / манифест: две колонки — */
+  .edu{ padding:5mm 0 0; }
+  .edu-grid{ grid-template-columns:1fr 1fr !important; gap:6mm; break-inside:avoid; page-break-inside:avoid; }
+  .edu-col h3{ font-size:9pt; margin-bottom:1.5mm; color:#000; }
+  .edu-feature{ border:.75pt solid #000; padding:3mm; margin-bottom:2mm; }
+  .edu-feature::before{ display:none; }
+  .edu-feature h4{ font-size:10pt; margin-top:1mm; color:#000; }
+  .edu-feature .prog{ font-size:8pt; margin-top:1mm; color:#000; }
+  .edu-feature p{ font-size:8pt; margin-top:.8mm; color:#333; }
+  .edu-item{ border-top:.5pt solid #bbb; padding:2mm 0; }
+  .edu-item .year, .edu-feature .year{ font-size:6.5pt; color:#000; }
+  .edu-item .year::before, .edu-feature .year::before{ background:#000; border:0; width:5px; height:5px; }
+  .edu-item h4{ font-size:9pt; color:#000; }
+  .edu-item p{ font-size:8pt; color:#333; }
+  .langs{ margin-top:2.5mm; }
+  .lang{ border-top:.5pt solid #bbb; padding-block:1.5mm; gap:3mm; }
+  .lang__n{ font-size:8.5pt; color:#000; }
+  .lang__lvl{ font-size:6.5pt; color:#555; }
+  .lang__bar{ height:4px; border:.5pt solid #000; }
   .lang__bar i{ transform:none; background:#000; }
-  .lang__bar, .lang{ border-color:#000; }
-  .reveal{ opacity:1; transform:none; }
-  body{ background:#fff; color:#000; }
-  /* Компактные отступы и медиа */
-  .hero{ padding-block:1.2rem 1.6rem; }
-  .photo{ max-width:230px; margin-top:1.4rem; }
-  .still{ max-width:300px; }
-  .kpi{ padding-block:1.4rem; }
-  .kpi .sec-line{ margin-bottom:1.2rem; }
-  .sec-head{ margin-bottom:1.2rem; }
-  .xp-item + .xp-item{ margin-top:1.6rem; }
-  .xp-note{ margin-top:1.4rem; }
-  .role-block{ padding-block:.65rem; }
-  .role-cta{ margin-top:.3rem; }
-  .role-cta i:not(.mid){ display:none; }   /* один CTA вместо трёх */
-  .skill-card{ padding:1rem .9rem 1.1rem; }
-  .langs{ margin-top:1.2rem; }
-  .contact-grid{ margin-top:1.4rem; padding-top:1.2rem; gap:1rem; }
-  .contact-mail{ margin-top:1.2rem; }
-  .footer-mark{ font-size:1.3rem; }
-  /* Аккуратные разрывы страниц: не рвать карточки и строки */
+  .how-list{ border-top:.75pt solid #000; }
+  .how-list li{
+    font-size:8.5pt; line-height:1.45; color:#000;
+    padding:1.6mm .5mm; gap:2.5mm;
+    border-bottom:.5pt solid #ccc;
+    background:none !important;
+  }
+  .how-list li::before{ background:#000; border:0; width:5px; height:5px; margin-top:.45em; }
+
+  /* — разрывы страниц: не рвать записи и карточки — */
   .skill-card, .edu-item, .edu-feature, .xp-item, .role-block,
-  .kpi-grid > div, .how-list li, .lang, .contact-grid > div,
-  .photo, .still, .langs{ break-inside:avoid; page-break-inside:avoid; }
-  .sec-head{ break-after:avoid; page-break-after:avoid; }
-  /* Все акцентные и светлые тексты — в чернила */
-  .hero-name, .hero-name .dot, .kpi__num, .xp-when .y,
-  .role-block .rname, .role-block:nth-child(odd) .rname,
-  .edu-item .year, .contact-mail, .footer-mark .amp,
-  .overline, .contact .overline, .sec-num, .contact .sec-num,
-  .chip, .edu-feature .prog{ color:#000; }
-  .sec-title, .contact-title, .xp-role, .skill-card h3, .edu-feature h4,
-  .footer-mark, .kpi__label, .contact-grid dd, .xp-list strong,
-  .hero-lead strong, .edu-item h4, .how-list li, .brand,
-  .lang__n{ color:#000; }
-  .hero-lead, .sec-lead, .xp-list li, .skill-card p, .edu-feature p,
-  .edu-item p, .contact-note, .xp-co, .hero-meta, .xp-when,
-  .role-block .rtag, .role-cta, .kpi__sub, .contact-grid dt,
-  .footer-meta, .hero-lat, .photo__hint, .lang__lvl{ color:#333; }
-  .skills-grid, .skill-card, .edu-feature, .edu-item, .kpi-grid > div,
-  .how-list li, .contact-grid, .site-footer, .footer-meta, .kpi,
-  .contact, .how-list, .sec-num, .chip{ border-color:#000 !important; }
-  .sec-line .rule{ background:#000; }
-  .edu-feature::before, .photo::before, .still::before, .chip::before,
-  .edu-item .year::before, .how-list li::before,
-  .xp-list li::before, .overline::before{ background:#000; }
+  .kpi-grid > div, .how-list li, .lang, .langs, .photo, .xp-note{
+    break-inside:avoid; page-break-inside:avoid;
+  }
 }
 </style>
 </head>
@@ -978,6 +1078,9 @@ html.has-intro #intro{ display:grid; }
       <span>РЭУ им. Г. В. Плеханова</span>
       <span><a class="link-line" href="https://t.me/ivan_wlb" rel="noopener">TG @ivan_wlb</a></span>
     </address>
+
+    <!-- Строка контактов для PDF-шапки (на экране скрыта; данные реальные) -->
+    <p class="print-contacts print-only">+7 995 990-82-67&ensp;·&ensp;ivan_neshtenko@mail.ru&ensp;·&ensp;t.me/ivan_wlb</p>
 
     <!-- [РЕДАКТИРОВАТЬ] Кнопки. «Сохранить PDF» отдаёт готовый файл
          Ivan_Neshtenko_CV.pdf (лежит рядом с этим html). После правок сайта
