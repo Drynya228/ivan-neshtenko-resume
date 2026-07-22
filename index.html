@@ -207,6 +207,26 @@ section[id]{ scroll-margin-top:84px; }
 .no-js .reveal{ opacity:1; transform:none; }
 .reveal[data-parallax]{ transform:none; transition:opacity .2s linear; }
 
+/* Highlight-плашки: лаймовый маркер прорисовывается на ключевых фактах
+   при появлении блока (₽1 млн, слова манифеста и т.п.) */
+.hl{ position:relative; isolation:isolate; transition:color .2s linear .4s; }
+.hl::before{
+  content:""; position:absolute; inset:-.06em -.09em; z-index:-1;
+  background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .45s var(--ease) .28s;
+}
+.reveal.is-visible .hl{ color:var(--dark); }
+.reveal.is-visible .hl::before{ transform:scaleX(1); }
+.no-js .hl{ color:var(--dark); }
+.no-js .hl::before{ transform:none; }
+
+/* Отклик на переход по якорю: номер секции вспыхивает лаймом */
+.sec-num{ transition:background-color .35s linear, color .35s linear, border-color .35s linear; }
+section[id]:target .sec-num{
+  background:var(--accent); color:var(--dark); border-color:var(--accent);
+}
+
 /* Индикатор прочитанного */
 #progress{
   position:fixed; inset:0 0 auto 0; height:3px; z-index:250;
@@ -647,18 +667,19 @@ html.has-intro #intro{ display:grid; }
 
 .how-list{ border-top:1px solid var(--line-mid); }
 .how-list li{
-  display:flex; align-items:flex-start; gap:.85rem;
+  position:relative; display:block;
   border-bottom:1px solid var(--line);
-  padding:1rem .15rem;
+  padding:1rem .15rem 1rem 1.75rem;
   font:600 1.02rem/1.5 var(--font-sans);
   transition:background-color var(--snap), padding-left var(--snap);
 }
 .how-list li::before{
-  content:""; width:9px; height:9px; flex:none;
-  margin-top:.5em;
+  content:""; position:absolute; left:.15rem; top:1.45rem;
+  width:9px; height:9px;
   background:var(--accent);
 }
-.how-list li:hover{ background:rgba(198,241,53,.09); padding-left:.6rem; }
+.how-list li:hover{ background:rgba(198,241,53,.09); padding-left:2.1rem; }
+.how-list li:hover::before{ left:.5rem; }
 
 /* Языки: компактные строки с полосой-заполнением */
 .langs{ margin-top:1.7rem; }
@@ -699,7 +720,7 @@ html.has-intro #intro{ display:grid; }
    ══════════════════════════════════════════════════════════ */
 .contact{
   padding-block:var(--sp-section);
-  border-top:1px solid var(--line);
+  border-top:3px solid var(--accent);   /* лаймовый «шов» — вход в финальный акт */
   text-align:center;
 }
 .contact .container{ position:relative; }
@@ -818,6 +839,8 @@ html.has-intro #intro{ display:grid; }
   .reveal .rule{ transform:none !important; }
   .photo__frame::after{ display:none !important; }
   .lang__bar i{ transform:none !important; }
+  .hl{ color:var(--dark) !important; }
+  .hl::before{ transform:none !important; }
   #cursor{ display:none !important; }
   #intro{ display:none !important; }
 }
@@ -971,17 +994,42 @@ html.has-intro #intro{ display:grid; }
   .how-list{ border-top:.75pt solid #000; }
   .how-list li{
     font-size:8.5pt; line-height:1.45; color:#000;
-    padding:1.6mm .5mm; gap:2.5mm;
+    padding:1.6mm .5mm 1.6mm 5mm;
     border-bottom:.5pt solid #ccc;
     background:none !important;
   }
-  .how-list li::before{ background:#000; border:0; width:5px; height:5px; margin-top:.45em; }
+  .how-list li::before{ left:.5mm; top:3mm; width:5px; height:5px; background:#000; border:0; }
 
   /* — разрывы страниц: не рвать записи и карточки — */
   .skill-card, .edu-item, .edu-feature, .xp-item, .role-block,
   .kpi-grid > div, .how-list li, .lang, .langs, .photo, .xp-note{
     break-inside:avoid; page-break-inside:avoid;
   }
+
+  /* — цветовые акценты печати: важное сканируется за 5 секунд.
+       Оливковый #465812 — для цветного ТЕКСТА (лайм на белом слаб);
+       чистый лайм #C6F135 — только заливки под тёмным текстом — */
+  .print-contacts{
+    background:#C6F135; display:inline-block; width:max-content;
+    padding:1mm 2mm; margin-left:-2mm;
+  }
+  .kpi__num{ color:#465812; }
+  .overline{ color:#465812; }
+  .xp-when .y, .role-block .rtag,
+  .edu-item .year, .edu-feature .year{ color:#465812; }
+  .sec-num{ background:#C6F135; color:#000; border-color:#000; }
+  .overline::before, .chip::before, .edu-item .year::before,
+  .edu-feature .year::before, .how-list li::before{
+    background:#C6F135; border:.5pt solid #000;
+  }
+  .lang__bar i{ background:#C6F135; }
+  .edu-feature::before{
+    display:block; width:3mm; height:3mm;
+    background:#C6F135; border:.5pt solid #000;
+    right:-1.7mm; top:-1.7mm;
+  }
+  .hl{ color:#000; }
+  .hl::before{ transform:none; background:#C6F135; }
 }
 </style>
 </head>
@@ -1067,7 +1115,7 @@ html.has-intro #intro{ display:grid; }
       и проектным менеджером, пока не понял, что моё — переговоры
       и развитие бизнеса. Сейчас веду B2B-продажи и работаю
       Business Development Manager. Главный результат года —
-      <strong>закрытая сделка на ₽1&nbsp;млн</strong>.
+      <strong class="hl">закрытая сделка на ₽1&nbsp;млн</strong>.
     </p>
 
     <!-- [РЕДАКТИРОВАТЬ] Факт-строка: город — заглушка, уточните у клиента.
@@ -1194,7 +1242,7 @@ html.has-intro #intro{ display:grid; }
       <p class="xp-when"><span class="y">1 год</span> — основная роль</p>
       <h3 class="xp-role">Business Development Manager</h3>
       <ul class="xp-list">
-        <li>Закрыл сделку на <strong>₽1 000 000</strong> — главный результат года.</li>
+        <li>Закрыл сделку на <strong class="hl">₽1 000 000</strong> — главный результат года.</li>
         <li>Веду партнёрские переговоры о развитии бизнеса: от первого контакта до конкретных договорённостей.</li>
         <!-- [РЕДАКТИРОВАТЬ] шаблон достижения: <li>Глагол + что сделал + <strong>цифра</strong>.</li> -->
       </ul>
@@ -1232,7 +1280,7 @@ html.has-intro #intro{ display:grid; }
       </div>
       <h2 class="sec-title">Семь ролей до главной</h2>
       <p class="sec-lead">С 15 лет заходил в проекты в разных ролях — вот они.
-      Каждая в итоге работает на главную: развитие бизнеса.</p>
+      Каждая в итоге работает на главную: <span class="hl">развитие бизнеса</span>.</p>
     </header>
     <ul>
       <li class="role-block reveal">
@@ -1374,9 +1422,9 @@ html.has-intro #intro{ display:grid; }
       <div class="edu-col reveal">
         <h3>Как я работаю</h3>
         <ul class="how-list" data-stagger>
-          <li class="reveal">Быстро разбираюсь в новом — это привычка, а не подвиг.</li>
+          <li class="reveal">Быстро разбираюсь в новом — это <span class="hl">привычка</span>, а не подвиг.</li>
           <li class="reveal">Адаптируюсь к задаче, а не жду, пока задача подстроится.</li>
-          <li class="reveal">В стрессе собираюсь, а не сыплюсь.</li>
+          <li class="reveal">В стрессе <span class="hl">собираюсь</span>, а не сыплюсь.</li>
           <li class="reveal">Открыт к людям и прямому разговору.</li>
           <li class="reveal">Решение нахожу тогда, когда оно нужно, а не когда удобно.</li>
         </ul>
@@ -1406,7 +1454,7 @@ html.has-intro #intro{ display:grid; }
     </div>
     <h2 class="contact-title reveal">Обсудим, какие сделки я закрою для вас?</h2>
     <p class="contact-note reveal">
-      Пишите — отвечаю сам и быстро.
+      Пишите — отвечаю <span class="hl">сам и быстро</span>.
     </p>
 
     <a class="contact-mail reveal" href="mailto:ivan_neshtenko@mail.ru">ivan_neshtenko@mail.ru</a>
