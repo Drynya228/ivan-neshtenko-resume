@@ -944,10 +944,12 @@ html.has-intro #intro{ display:grid; }
       <span><a class="link-line" href="https://t.me/ivan_wlb" rel="noopener">TG @ivan_wlb</a></span>
     </address>
 
-    <!-- [РЕДАКТИРОВАТЬ] Кнопки: ссылка на PDF-файл резюме -->
+    <!-- [РЕДАКТИРОВАТЬ] Кнопки. «Сохранить PDF» открывает системную печать
+         (print-стили светлые → «Сохранить как PDF»). Если появится готовый
+         PDF-файл — замените <button> на <a href="resume.pdf" download> -->
     <div class="hero-cta reveal">
       <a class="btn btn--primary" href="#contact" data-magnet><span class="sw"><b data-txt="Обсудить сотрудничество">Обсудить сотрудничество</b></span> <span class="arr">→</span></a>
-      <a class="btn btn--ghost" href="#" download><span class="sw"><b data-txt="Скачать резюме (PDF)">Скачать резюме (PDF)</b></span></a>
+      <button type="button" class="btn btn--ghost" id="btn-pdf"><span class="sw"><b data-txt="Сохранить PDF">Сохранить PDF</b></span></button>
     </div>
 
     <!-- [РЕДАКТИРОВАТЬ] Статус поиска (заглушка — подтвердите у клиента) -->
@@ -1550,6 +1552,13 @@ html.has-intro #intro{ display:grid; }
         if(c && c.__done) scramble(c, 300);
       });
     });
+  }
+
+  /* Кнопка «Сохранить PDF»: системная печать → «Сохранить как PDF»
+     (print-стили страницы светлые). Работает кликом, Enter и тапом */
+  var pdfBtn = document.getElementById('btn-pdf');
+  if(pdfBtn){
+    pdfBtn.addEventListener('click', function(){ window.print(); });
   }
 
   /* Magnetic-кнопки: лёгкое притяжение к курсору (max 6px) */
