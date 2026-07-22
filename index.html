@@ -1132,11 +1132,12 @@ html.has-intro #intro{ display:grid; }
 
     <!-- [РЕДАКТИРОВАТЬ] Кнопки. «Сохранить PDF» отдаёт готовый файл
          Ivan_Neshtenko_CV.pdf (лежит рядом с этим html). После правок сайта
-         перегенерируйте PDF (печать страницы в PDF со светлыми стилями)
-         и замените файл под тем же именем -->
+         перегенерируйте PDF, замените файл под тем же именем
+         И ИНКРЕМЕНТИРУЙТЕ параметр ?v= в href (например 20260722a → 20260722b) —
+         иначе CDN-кэш и старые копии в iOS Files отдадут прежнюю версию -->
     <div class="hero-cta reveal">
       <a class="btn btn--primary" href="#contact" data-magnet><span class="sw"><b data-txt="Обсудить сотрудничество">Обсудить сотрудничество</b></span> <span class="arr">→</span></a>
-      <a class="btn btn--ghost" href="./Ivan_Neshtenko_CV.pdf" download="Ivan_Neshtenko_CV.pdf"><span class="sw"><b data-txt="Сохранить PDF">Сохранить PDF</b></span></a>
+      <a class="btn btn--ghost" href="./Ivan_Neshtenko_CV.pdf?v=20260722a" download="Ivan_Neshtenko_CV.pdf"><span class="sw"><b data-txt="Сохранить PDF">Сохранить PDF</b></span></a>
     </div>
 
     <!-- [РЕДАКТИРОВАТЬ] Статус поиска (заглушка — подтвердите у клиента) -->
