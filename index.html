@@ -69,9 +69,17 @@
   --radius:     0;
   --bw:         1.5px;
 
-  /* Движение: резко, коротко */
-  --ease: cubic-bezier(.19,1,.22,1);
-  --snap: .12s linear;
+  /* Моушн-язык: одна семья кривых + шкала длительностей.
+     --ease      out-expo — движение элементов (вход, сдвиг);
+     --ease-hard шторки, швы, маркеры-заливки;
+     --snap      цвета и фоны (быстрая линейная);
+     шкала: fast .2s · med .5s · slow .9s */
+  --ease: cubic-bezier(.16,1,.3,1);
+  --ease-hard: cubic-bezier(.85,0,.15,1);
+  --snap: .16s linear;
+  --t-fast: .2s;
+  --t-med: .5s;
+  --t-slow: .9s;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -186,7 +194,7 @@ section[id]{ scroll-margin-top:84px; }
   content:""; position:absolute; inset:0; z-index:-1;
   background:var(--tx);
   transform:scaleX(0); transform-origin:left;
-  transition:transform .24s var(--ease);
+  transition:transform .35s var(--ease-hard);
 }
 .btn:hover::after, .btn:focus-visible::after{ transform:scaleX(1); }
 .btn:active{ translate:2px 2px; }
@@ -200,8 +208,8 @@ section[id]{ scroll-margin-top:84px; }
 
 /* Scroll-появления */
 .reveal{
-  opacity:0; transform:translateY(12px);
-  transition:opacity .2s linear, transform .24s var(--ease);
+  opacity:0; transform:translateY(16px);
+  transition:opacity .3s linear, transform var(--t-med) var(--ease);
 }
 .reveal.is-visible{ opacity:1; transform:none; }
 .no-js .reveal{ opacity:1; transform:none; }
@@ -209,12 +217,16 @@ section[id]{ scroll-margin-top:84px; }
 
 /* Highlight-плашки: лаймовый маркер прорисовывается на ключевых фактах
    при появлении блока (₽1 млн, слова манифеста и т.п.) */
-.hl{ position:relative; isolation:isolate; transition:color .2s linear .4s; }
+.hl{
+  position:relative; isolation:isolate;
+  display:inline-block;               /* цельная плашка без внутреннего переноса */
+  transition:color .2s linear .45s;
+}
 .hl::before{
   content:""; position:absolute; inset:-.06em -.09em; z-index:-1;
   background:var(--accent);
   transform:scaleX(0); transform-origin:left;
-  transition:transform .45s var(--ease) .28s;
+  transition:transform var(--t-med) var(--ease-hard) .3s;
 }
 .reveal.is-visible .hl{ color:var(--dark); }
 .reveal.is-visible .hl::before{ transform:scaleX(1); }
@@ -253,11 +265,29 @@ body::after{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
 }
 
-/* Хореография появлений: wipe-заголовки, растущие линейки, шторка фото */
+/* Хореография появлений секций — фиксированная последовательность:
+   1) оверлайн (0s) → 2) линейка + номер (.15s) → 3) wipe-тайтл (.3s)
+   → 4) лид (.45s) → 5) контент с собственным stagger */
+.sec-head .overline{
+  opacity:0; transform:translateY(8px);
+  transition:opacity .25s linear, transform .45s var(--ease);
+}
+.sec-head.is-visible .overline{ opacity:1; transform:none; }
+.sec-head .sec-num{
+  opacity:0;
+  transition:opacity .3s linear .2s, background-color .35s linear,
+             color .35s linear, border-color .35s linear;
+}
+.sec-head.is-visible .sec-num{ opacity:1; }
+.sec-head .sec-lead{
+  opacity:0; transform:translateY(10px);
+  transition:opacity .3s linear .45s, transform var(--t-med) var(--ease) .45s;
+}
+.sec-head.is-visible .sec-lead{ opacity:1; transform:none; }
 .sec-head .sec-title,
 .contact-title{
   clip-path:inset(0 100% 0 0);
-  transition:clip-path .55s var(--ease) .08s;
+  transition:clip-path .6s var(--ease-hard) .3s;
 }
 .sec-head.is-visible .sec-title,
 .contact-title.is-visible{
@@ -265,19 +295,59 @@ body::after{
 }
 .reveal .rule{
   transform:scaleX(0); transform-origin:left;
-  transition:transform .5s var(--ease) .05s;
+  transition:transform .6s var(--ease-hard) .15s;
 }
 .reveal.is-visible .rule, .is-visible .rule{ transform:scaleX(1); }
 .photo__frame::after{
   content:""; position:absolute; inset:0; z-index:1;
   background:var(--accent);
   transform:scaleY(1); transform-origin:top;
-  transition:transform .6s var(--ease) .15s;
+  transition:transform .7s var(--ease-hard) .2s;
 }
 .photo.is-visible .photo__frame::after{ transform:scaleY(0); }
+
+/* Слой-призрак: гигантский контурный номер секции за заголовком */
+.sec-head::after{
+  content:attr(data-num);
+  position:absolute; right:0; top:-1.4rem; z-index:-1;
+  font:600 clamp(4.5rem, 10vw, 8rem)/1 var(--font-display);
+  color:rgba(241,241,234,.04);
+  -webkit-text-stroke:1.5px rgba(241,241,234,.13);
+  letter-spacing:.02em;
+  opacity:0; transform:translateY(14px);
+  transition:opacity .5s linear .2s, transform .7s var(--ease) .2s;
+  pointer-events:none;
+}
+.sec-head.is-visible::after{ opacity:1; transform:none; }
+.contact .container::after{
+  content:attr(data-num);
+  position:absolute; right:0; top:-2rem; z-index:-1;
+  font:600 clamp(4.5rem, 10vw, 8rem)/1 var(--font-display);
+  color:rgba(241,241,234,.04);
+  -webkit-text-stroke:1.5px rgba(241,241,234,.13);
+  opacity:0; transform:translateY(14px);
+  transition:opacity .5s linear .2s, transform .7s var(--ease) .2s;
+  pointer-events:none;
+}
+.contact.is-visible .container::after{ opacity:1; transform:none; }
+
+/* Полиграфические кроп-метки хиро */
+.hero .container{ position:relative; }
+.hero .container::before,
+.hero .container::after{
+  position:absolute; content:"+";
+  font:400 13px/1 var(--font-mono); color:var(--line-mid);
+  pointer-events:none;
+}
+.hero .container::before{ left:.1rem; top:-1.2rem; }
+.hero .container::after{ right:.1rem; bottom:-1.6rem; }
+
 .no-js .sec-head .sec-title, .no-js .contact-title{ clip-path:none; }
 .no-js .reveal .rule{ transform:none; }
 .no-js .photo__frame::after{ display:none; }
+.no-js .sec-head .overline, .no-js .sec-head .sec-num,
+.no-js .sec-head .sec-lead, .no-js .sec-head::after,
+.no-js .contact .container::after{ opacity:1; transform:none; }
 
 /* ══════════════════════════════════════════════════════════
    ИНТРО-СЛОВОМАРКА: «ИВАН / & / НЕШТЕНКО» на чёрном (~1.2с)
@@ -286,7 +356,7 @@ body::after{
   position:fixed; inset:0; z-index:500;
   background:var(--bg);
   display:none; place-items:center; text-align:center;
-  transition:transform .45s cubic-bezier(.7,0,.18,1);
+  transition:transform var(--t-med) var(--ease-hard);
 }
 html.has-intro #intro{ display:grid; }
 #intro.done{ transform:translateY(-101%); }
@@ -296,7 +366,7 @@ html.has-intro #intro{ display:grid; }
   font:600 clamp(2.6rem, 8.5vw, 5.8rem)/1.04 var(--font-display);
   text-transform:uppercase; letter-spacing:.01em;
   transform:translateY(112%);
-  transition:transform .5s var(--ease);
+  transition:transform .55s var(--ease);
 }
 .intro-line--amp b{
   font-size:clamp(2.8rem, 9.5vw, 6.4rem);
@@ -320,7 +390,7 @@ html.has-intro #intro{ display:grid; }
   position:relative; display:block;
   font-weight:inherit; font-style:normal;
   transform:translateY(0);
-  transition:transform .3s var(--ease);
+  transition:transform .35s var(--ease);
 }
 .sw b::after{
   content:attr(data-txt);
@@ -719,10 +789,19 @@ html.has-intro #intro{ display:grid; }
    10. КОНТАКТ — финальный плакат + ПОДВАЛ-СЛОВОМАРКА
    ══════════════════════════════════════════════════════════ */
 .contact{
+  position:relative;
   padding-block:var(--sp-section);
-  border-top:3px solid var(--accent);   /* лаймовый «шов» — вход в финальный акт */
   text-align:center;
 }
+/* Лаймовый шов: тянется по всей ширине при входе в финальный акт */
+.contact::before{
+  content:""; position:absolute; top:0; left:0;
+  width:100%; height:3px; background:var(--accent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform var(--t-slow) var(--ease-hard);
+}
+.contact.is-visible::before{ transform:scaleX(1); }
+.no-js .contact::before{ transform:none; }
 .contact .container{ position:relative; }
 .contact-title{
   font:600 clamp(2.1rem, 5.4vw, 4rem)/1.04 var(--font-display);
@@ -841,6 +920,11 @@ html.has-intro #intro{ display:grid; }
   .lang__bar i{ transform:none !important; }
   .hl{ color:var(--dark) !important; }
   .hl::before{ transform:none !important; }
+  .sec-head .overline, .sec-head .sec-num, .sec-head .sec-lead,
+  .sec-head::after, .contact .container::after{
+    opacity:1 !important; transform:none !important;
+  }
+  .contact::before{ transform:none !important; }
   #cursor{ display:none !important; }
   #intro{ display:none !important; }
 }
@@ -857,6 +941,10 @@ html.has-intro #intro{ display:grid; }
   .site-header, .hero-cta, .skip-link, .marquee, .motif,
   #progress, #cursor, #intro, .hero .chip, .still,
   .contact, .site-footer, .sec-lead{ display:none !important; }
+  .sec-head::after, .contact .container::after,
+  .hero .container::before, .hero .container::after{
+    display:none !important; content:none !important;
+  }
   .print-only{ display:block !important; }
   .reveal{ opacity:1 !important; transform:none !important; }
   .sec-head .sec-title, .contact-title{ clip-path:none; }
@@ -1111,11 +1199,11 @@ html.has-intro #intro{ display:grid; }
 
     <!-- [РЕДАКТИРОВАТЬ] Value proposition: 2–3 предложения, главные цифры — в <strong> -->
     <p class="hero-lead reveal">
-      В проектах с 15 лет: успел поработать аналитиком, дизайнером
-      и проектным менеджером, пока не понял, что моё — переговоры
-      и развитие бизнеса. Сейчас веду B2B-продажи и работаю
-      Business Development Manager. Главный результат года —
-      <strong class="hl">закрытая сделка на ₽1&nbsp;млн</strong>.
+      В&nbsp;проектах с&nbsp;15&nbsp;лет: успел поработать аналитиком, дизайнером
+      и&nbsp;проектным менеджером, пока не&nbsp;понял, что моё&nbsp;— переговоры
+      и&nbsp;развитие бизнеса. Сейчас веду B2B-продажи и&nbsp;работаю
+      Business Development Manager. Главный результат года&nbsp;—
+      <strong class="hl">закрытая сделка на&nbsp;₽1&nbsp;млн</strong>.
     </p>
 
     <!-- [РЕДАКТИРОВАТЬ] Факт-строка: город — заглушка, уточните у клиента.
@@ -1215,7 +1303,7 @@ html.has-intro #intro{ display:grid; }
       <div class="reveal">
         <p class="kpi__num"><span class="count" data-count-to="15" data-prefix="с " data-suffix=" лет">с 15 лет</span></p>
         <p class="kpi__label">В проектах и бизнес-задачах</p>
-        <p class="kpi__sub">сейчас — 18</p>
+        <p class="kpi__sub">сейчас&nbsp;—&nbsp;18</p>
       </div>
     </div>
   </div>
@@ -1227,7 +1315,7 @@ html.has-intro #intro{ display:grid; }
      ════════════════════════════════════════════════════════ -->
 <section class="xp" id="experience">
   <div class="container">
-    <header class="sec-head reveal">
+    <header class="sec-head reveal" data-num="02">
       <div class="sec-line">
         <p class="overline">Опыт работы</p>
         <i class="rule" aria-hidden="true"></i>
@@ -1243,7 +1331,7 @@ html.has-intro #intro{ display:grid; }
       <p class="xp-when"><span class="y">1 год</span> — основная роль</p>
       <h3 class="xp-role">Business Development Manager</h3>
       <ul class="xp-list">
-        <li>Закрыл сделку на <strong class="hl">₽1 000 000</strong> — главный результат года.</li>
+        <li>Закрыл сделку на&nbsp;<strong class="hl">₽1&nbsp;000&nbsp;000</strong>&nbsp;— главный результат года.</li>
         <li>Веду партнёрские переговоры о развитии бизнеса: от первого контакта до конкретных договорённостей.</li>
         <!-- [РЕДАКТИРОВАТЬ] шаблон достижения: <li>Глагол + что сделал + <strong>цифра</strong>.</li> -->
       </ul>
@@ -1262,7 +1350,7 @@ html.has-intro #intro{ display:grid; }
 
     <!-- [РЕДАКТИРОВАТЬ: уточнить компанию/роль] Факт от клиента —
          год работы в международной компании, название пока не раскрываем -->
-    <p class="xp-note reveal"><span class="chip">+ год в международной компании — детали при разговоре</span></p>
+    <p class="xp-note reveal"><span class="chip">+&nbsp;год в&nbsp;международной компании&nbsp;— детали при разговоре</span></p>
   </div>
 </section>
 
@@ -1273,15 +1361,15 @@ html.has-intro #intro{ display:grid; }
      ════════════════════════════════════════════════════════ -->
 <section class="roles" id="roles">
   <div class="container">
-    <header class="sec-head reveal">
+    <header class="sec-head reveal" data-num="03">
       <div class="sec-line">
         <p class="overline">Роли в проектах</p>
         <i class="rule" aria-hidden="true"></i>
         <span class="sec-num">03</span>
       </div>
       <h2 class="sec-title">Семь ролей до главной</h2>
-      <p class="sec-lead">С 15 лет заходил в проекты в разных ролях — вот они.
-      Каждая в итоге работает на главную: <span class="hl">развитие бизнеса</span>.</p>
+      <p class="sec-lead">С&nbsp;15&nbsp;лет заходил в&nbsp;проекты в&nbsp;разных ролях&nbsp;— вот они.
+      Каждая в&nbsp;итоге работает на&nbsp;главную: <span class="hl">развитие бизнеса</span>.</p>
     </header>
     <ul>
       <li class="role-block reveal">
@@ -1328,7 +1416,7 @@ html.has-intro #intro{ display:grid; }
      ════════════════════════════════════════════════════════ -->
 <section class="skills" id="skills">
   <div class="container">
-    <header class="sec-head reveal">
+    <header class="sec-head reveal" data-num="04">
       <div class="sec-line">
         <p class="overline">Компетенции</p>
         <i class="rule" aria-hidden="true"></i>
@@ -1376,7 +1464,7 @@ html.has-intro #intro{ display:grid; }
      ════════════════════════════════════════════════════════ -->
 <section class="edu" id="education">
   <div class="container">
-    <header class="sec-head reveal">
+    <header class="sec-head reveal" data-num="05">
       <div class="sec-line">
         <p class="overline">Образование и подход</p>
         <i class="rule" aria-hidden="true"></i>
@@ -1423,11 +1511,11 @@ html.has-intro #intro{ display:grid; }
       <div class="edu-col reveal">
         <h3>Как я работаю</h3>
         <ul class="how-list" data-stagger>
-          <li class="reveal">Быстро разбираюсь в новом — это <span class="hl">привычка</span>, а не подвиг.</li>
-          <li class="reveal">Адаптируюсь к задаче, а не жду, пока задача подстроится.</li>
-          <li class="reveal">В стрессе <span class="hl">собираюсь</span>, а не сыплюсь.</li>
-          <li class="reveal">Открыт к людям и прямому разговору.</li>
-          <li class="reveal">Решение нахожу тогда, когда оно нужно, а не когда удобно.</li>
+          <li class="reveal">Быстро разбираюсь в&nbsp;новом&nbsp;— это <span class="hl">привычка</span>, а&nbsp;не&nbsp;подвиг.</li>
+          <li class="reveal">Адаптируюсь к&nbsp;задаче, а&nbsp;не&nbsp;жду, пока задача подстроится.</li>
+          <li class="reveal">В&nbsp;стрессе <span class="hl">собираюсь</span>, а&nbsp;не&nbsp;сыплюсь.</li>
+          <li class="reveal">Открыт к&nbsp;людям и&nbsp;прямому разговору.</li>
+          <li class="reveal">Решение нахожу тогда, когда оно нужно, а&nbsp;не&nbsp;когда удобно.</li>
         </ul>
 
         <!-- [РЕДАКТИРОВАТЬ] Второй кадр (IMG_2515, ч/б, плотный кроп 4:3, base64/webp):
@@ -1446,7 +1534,7 @@ html.has-intro #intro{ display:grid; }
      ФИНАЛЬНЫЙ CTA · [РЕДАКТИРОВАТЬ] заголовок и все контакты
      ════════════════════════════════════════════════════════ -->
 <section class="contact" id="contact">
-  <div class="container">
+  <div class="container" data-num="06">
     <svg class="motif motif--contact" viewBox="0 0 220 132" aria-hidden="true"><use href="#m-step"/></svg>
     <div class="sec-line reveal">
       <p class="overline">Контакты</p>
@@ -1455,7 +1543,7 @@ html.has-intro #intro{ display:grid; }
     </div>
     <h2 class="contact-title reveal">Обсудим, какие сделки я закрою для вас?</h2>
     <p class="contact-note reveal">
-      Пишите — отвечаю <span class="hl">сам и быстро</span>.
+      Пишите&nbsp;— отвечаю <span class="hl">сам и&nbsp;быстро</span>.
     </p>
 
     <a class="contact-mail reveal" href="mailto:ivan_neshtenko@mail.ru">ivan_neshtenko@mail.ru</a>
@@ -1553,7 +1641,7 @@ html.has-intro #intro{ display:grid; }
     var to = parseFloat(el.getAttribute('data-count-to')) || 0;
     var prefix = el.getAttribute('data-prefix') || '';
     var suffix = el.getAttribute('data-suffix') || '';
-    var t0 = null, DUR = 950;
+    var t0 = null, DUR = 1000;
     function frame(t){
       if(!t0) t0 = t;
       var p = Math.min((t - t0) / DUR, 1);
@@ -1576,6 +1664,8 @@ html.has-intro #intro{ display:grid; }
   var counted = new WeakSet();
   function activate(el){
     el.classList.add('is-visible');
+    var act = el.closest && el.closest('.contact');
+    if(act) act.classList.add('is-visible');   /* лаймовый шов + номер-призрак */
     el.querySelectorAll('.count').forEach(function(c){
       if(!counted.has(c)){ counted.add(c); runCounter(c); }
     });
@@ -1673,7 +1763,8 @@ html.has-intro #intro{ display:grid; }
     }, { passive: true });
     document.addEventListener('mouseleave', function(){ cSeen = false; cursor.style.opacity = '0'; });
     document.addEventListener('mouseover', function(e){
-      cOn = !!(e.target.closest && e.target.closest('a, button, .role-block, .skill-card, [data-magnet]'));
+      /* курсор растёт только на реально кликабельном */
+      cOn = !!(e.target.closest && e.target.closest('a, button, [data-magnet]'));
       cursor.classList.toggle('is-on', cOn);
     });
   } else if(cursor){
